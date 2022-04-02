@@ -4,4 +4,8 @@
     <string name="title_create">Create</string>
     <string name="title_my_offers">My offers</string>
     <string name="title_profile">Profile</string>
+    <string name="title">temp_title</string>
+    <string name="secondary_text">temp_secondary</string>
+    <string name="supporting_text">temp_supporting</string>
+    <string name="action_1">Details</string>
 </resources>
