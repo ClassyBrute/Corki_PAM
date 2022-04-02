@@ -1,13 +1,13 @@
-package com.example.corki.ui.dashboard
+package com.example.corki.ui.my_offers
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class DashboardViewModel : ViewModel() {
+class MyOffersViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
+        value = "This is myoffers Fragment"
     }
     val text: LiveData<String> = _text
 }
