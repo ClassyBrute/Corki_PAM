@@ -11,8 +11,12 @@
         <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/fragment_my_offers.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/fragment_notifications.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/fragment_profile.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/fragment_search.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/fragment_search.xml" value="0.33" />
+        <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/search_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/subject.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/subject_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/menu/bottom_nav_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/menu/subject.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>

@@ -1,14 +1,13 @@
 package com.example.corki.ui.search
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
+import android.view.*
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.corki.R
 import com.example.corki.databinding.FragmentSearchBinding
 
 class SearchFragment : Fragment() {
@@ -20,9 +19,7 @@ class SearchFragment : Fragment() {
     private val recyclerView get() = _recyclerView
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?): View {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val searchViewModel =
                 ViewModelProvider(this).get(SearchViewModel::class.java)
 
@@ -37,20 +34,32 @@ class SearchFragment : Fragment() {
         data.add(ItemsViewModel("hejka123"))
         data.add(ItemsViewModel("hejka123456"))
         data.add(ItemsViewModel("hejka456"))
+        data.add(ItemsViewModel("hejka456"))
+        data.add(ItemsViewModel("hejka456"))
 
         val adapter = ItemAdapter(data, object: ItemAdapter.OnDataClickListener {
             override fun onDataClick(position: Int) {
                 println(position)
             }
         })
-
         recyclerView?.adapter = adapter
 
-//        val textView: TextView = binding
-//        searchViewModel.text.observe(viewLifecycleOwner) {
-//            textView.text = it
-//        }
         return root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val subjects = resources.getStringArray(R.array.subjects)
+        val arrayAdapter1 = ArrayAdapter(requireContext(), R.layout.search_item, subjects)
+        binding.menuSubjectItem.setAdapter(arrayAdapter1)
+
+        val levels = resources.getStringArray(R.array.level)
+        val arrayAdapter2 = ArrayAdapter(requireContext(), R.layout.search_item, levels)
+        binding.menuLevelItem.setAdapter(arrayAdapter2)
+
+        val cities = resources.getStringArray(R.array.city)
+        val arrayAdapter3 = ArrayAdapter(requireContext(), R.layout.search_item, cities)
+        binding.menuCityItem.setAdapter(arrayAdapter3)
     }
 
     override fun onDestroyView() {

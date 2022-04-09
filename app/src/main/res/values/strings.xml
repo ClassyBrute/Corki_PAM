@@ -8,4 +8,27 @@
     <string name="secondary_text">temp_secondary</string>
     <string name="supporting_text">temp_supporting</string>
     <string name="action_1">Details</string>
+    <string name="subject">Subject</string>
+    <string name="level">Level</string>
+    <string name="city">City</string>
+    <string name="max_price">Max price</string>
+
+    <string-array name="subjects">
+        <item> Maths </item>
+        <item> Physics </item>
+        <item> Chemistry </item>
+    </string-array>
+
+    <string-array name="level">
+        <item> Primary School </item>
+        <item> Middle School </item>
+        <item> High School </item>
+        <item> University </item>
+    </string-array>
+
+    <string-array name="city">
+        <item> Wrocław </item>
+        <item> Poznań </item>
+        <item> Warszawa </item>
+    </string-array>
 </resources>
