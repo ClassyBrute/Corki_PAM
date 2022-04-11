@@ -1,14 +1,20 @@
 package com.example.corki.ui.search
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.corki.R
 import com.example.corki.databinding.FragmentSearchBinding
+import com.google.android.material.datepicker.MaterialDatePicker
+import java.text.DateFormat
+import java.util.*
 
 class SearchFragment : Fragment() {
 
@@ -20,14 +26,40 @@ class SearchFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val searchViewModel =
-                ViewModelProvider(this).get(SearchViewModel::class.java)
+        val searchViewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
 
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         _recyclerView = binding.recyclerSearch
         recyclerView?.layoutManager = LinearLayoutManager(this.context)
+
+        var dateRangePicker: MaterialDatePicker<Pair<Long, Long>>?
+        var dateRange: Pair<Long, Long>?
+        binding.dateTime1.setText(DateFormat.getDateInstance().format(Date()))
+
+        binding.dateTime1.setOnClickListener {
+            dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
+                .setTitleText("Select dates")
+                .setSelection(
+                    Pair(
+                        MaterialDatePicker.thisMonthInUtcMilliseconds(),
+                        MaterialDatePicker.todayInUtcMilliseconds()
+                    )
+                )
+                .setTheme(com.google.android.material.R.style.ThemeOverlay_MaterialComponents_MaterialCalendar)
+                .build()
+
+            dateRangePicker!!.show(parentFragmentManager, "MATERIAL_DATE_PICKER")
+
+            dateRangePicker?.addOnPositiveButtonClickListener {
+                dateRange = Pair(dateRangePicker!!.selection?.first, dateRangePicker!!.selection?.second)
+                val first = DateFormat.getDateInstance().format(dateRange?.first)
+                val second = DateFormat.getDateInstance().format(dateRange?.second)
+                val date = "$first - $second"
+                binding.dateTime1.setText(date)
+            }
+        }
 
         val data = ArrayList<ItemsViewModel>()
         data.add(ItemsViewModel("hejka"))
@@ -37,11 +69,7 @@ class SearchFragment : Fragment() {
         data.add(ItemsViewModel("hejka456"))
         data.add(ItemsViewModel("hejka456"))
 
-        val adapter = ItemAdapter(data, object: ItemAdapter.OnDataClickListener {
-            override fun onDataClick(position: Int) {
-                println(position)
-            }
-        })
+        val adapter = ItemAdapter(data)
         recyclerView?.adapter = adapter
 
         return root

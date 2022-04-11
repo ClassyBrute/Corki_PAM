@@ -98,17 +98,22 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/date_time"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:minWidth="150dp"
-                android:hint="PICK DATE TIME">
+                android:paddingBottom="5dp">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <AutoCompleteTextView
+                    android:id="@+id/date_time1"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:paddingHorizontal="5dp"
+                    android:inputType="none"
+                    android:layout_weight="1"
+                    android:gravity="center" >
 
-                </com.google.android.material.textfield.TextInputEditText>
+                </AutoCompleteTextView>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </HorizontalScrollView>
@@ -120,5 +125,17 @@
         android:paddingBottom="55dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="?android:attr/actionModeWebSearchDrawable"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

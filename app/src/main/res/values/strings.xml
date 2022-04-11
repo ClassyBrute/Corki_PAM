@@ -12,6 +12,7 @@
     <string name="level">Level</string>
     <string name="city">City</string>
     <string name="max_price">Max price</string>
+    <string name="title_details">Details</string>
 
     <string-array name="subjects">
         <item> Maths </item>
