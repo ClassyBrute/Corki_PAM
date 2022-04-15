@@ -15,6 +15,14 @@
     <string name="title_details">Details</string>
     <string name="edit">Edit</string>
     <string name="register">Register</string>
+    <string name="create_notice">Create new offer</string>
+    <string name="category_title">Title:</string>
+    <string name="category_subject">Subject:</string>
+    <string name="category_city">City:</string>
+    <string name="category_level">Level:</string>
+    <string name="category_price">Price:</string>
+    <string name="category_date">Date:</string>
+    <string name="category_owner">Owner:</string>
 
     <string-array name="subjects">
         <item> Maths </item>

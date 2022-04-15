@@ -44,7 +44,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
                     android:textStyle="bold"
-                    android:text="Title:"
+                    android:text="@string/category_title"
                     android:textSize="@dimen/detail_category_text"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -91,7 +91,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="40dp"
                     android:textSize="@dimen/detail_category_text"
-                    android:text="Subject:"
+                    android:text="@string/category_subject"
                     app:layout_constraintStart_toStartOf="@+id/textView3"
                     app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -134,7 +134,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="40dp"
                     android:textSize="@dimen/detail_category_text"
-                    android:text="City:"
+                    android:text="@string/category_city"
                     app:layout_constraintStart_toStartOf="@+id/textView4"
                     app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -177,7 +177,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="40dp"
                     android:textSize="@dimen/detail_category_text"
-                    android:text="Level:"
+                    android:text="@string/category_level"
                     app:layout_constraintStart_toStartOf="@+id/textView5"
                     app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -220,7 +220,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="40dp"
                     android:textSize="@dimen/detail_category_text"
-                    android:text="Price:"
+                    android:text="@string/category_price"
                     app:layout_constraintStart_toStartOf="@+id/textView9"
                     app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
@@ -263,7 +263,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="40dp"
                     android:textSize="@dimen/detail_category_text"
-                    android:text="Date:"
+                    android:text="@string/category_date"
                     app:layout_constraintStart_toStartOf="@+id/textView6"
                     app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
@@ -307,7 +307,7 @@
                     android:layout_gravity="center"
                     android:textSize="@dimen/detail_category_text"
                     android:layout_marginTop="40dp"
-                    android:text="Owner:"
+                    android:text="@string/category_owner"
                     app:layout_constraintStart_toStartOf="@+id/textView7"
                     app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
