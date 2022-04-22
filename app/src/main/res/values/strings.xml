@@ -4,7 +4,7 @@
     <string name="title_create">Create</string>
     <string name="title_my_offers">My offers</string>
     <string name="title_profile">Profile</string>
-    <string name="title">temp_title</string>
+    <string name="title">Title</string>
     <string name="secondary_text">temp_secondary</string>
     <string name="supporting_text">temp_supporting</string>
     <string name="action_1">Details</string>
@@ -34,6 +34,7 @@
     <string name="phone">Phone</string>
     <string name="profile_birthday">Birthday:</string>
     <string name="hint_number">123456789</string>
+    <string name="log_out">log out</string>
 
     <string-array name="subjects">
         <item> Maths </item>

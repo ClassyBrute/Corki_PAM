@@ -46,12 +46,21 @@
                             android:orientation="vertical"
                             app:layout_constraintGuide_begin="120dp" />
 
+                        <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/log_out"
+                            android:textColor="@android:color/holo_red_light"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
                         <TextView
                             android:id="@+id/profileTitleTextView"
                             style="@style/TextAppearance.AppCompat.Title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
+                            android:layout_marginTop="55dp"
                             android:text="{user_name}'s profile"
                             android:textSize="35sp"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -262,9 +271,22 @@
                         <TextView
                             android:id="@+id/birthdayTextView"
                             android:layout_width="wrap_content"
+                            android:layout_height="55dp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="40dp"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/detail_category_text"
+                            android:text="@string/profile_birthday"
+                            app:layout_constraintStart_toStartOf="@+id/phoneTextView"
+                            app:layout_constraintTop_toBottomOf="@+id/phoneTextView" />
+
+                        <TextView
+                            android:id="@+id/birthdayTextView2"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="40dp"
+                            android:visibility="invisible"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/detail_category_text"
                             android:text="@string/profile_birthday"
@@ -276,10 +298,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:textColor="@android:color/white"
                             android:text="@string/category_date"
+                            android:textColor="@android:color/white"
                             android:textSize="@dimen/detail_category_text"
-                            app:layout_constraintBottom_toBottomOf="@+id/birthdayTextView"
                             app:layout_constraintStart_toStartOf="@+id/guideline3"
                             app:layout_constraintTop_toTopOf="@+id/birthdayTextView" />
 
@@ -289,7 +310,7 @@
                             android:layout_height="55dp"
                             android:minWidth="180dp"
                             android:visibility="gone"
-                            app:layout_constraintBottom_toBottomOf="@+id/birthdayTextView"
+                            app:layout_constraintBottom_toBottomOf="@+id/birthdayTextView2"
                             app:layout_constraintStart_toStartOf="@+id/guideline3"
                             app:layout_constraintTop_toTopOf="@+id/birthdayTextView">
 
@@ -297,9 +318,9 @@
                                 android:id="@+id/birthday_profile_edit1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:paddingHorizontal="5dp"
+                                android:gravity="start|center"
                                 android:inputType="none"
-                                android:gravity="start|center" >
+                                android:paddingHorizontal="5dp">
 
                             </AutoCompleteTextView>
                         </com.google.android.material.textfield.TextInputLayout>
@@ -319,7 +340,6 @@
                             style="?attr/borderlessButtonStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
                             android:layout_marginEnd="8dp"
                             android:text="@string/edit" />
 

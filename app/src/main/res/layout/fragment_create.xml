@@ -87,7 +87,6 @@
                                 android:layout_height="wrap_content"
                                 android:imeOptions="actionDone"
                                 android:inputType="text"
-                                android:text="@string/title"
                                 android:textSize="@dimen/detail_category_text"
                                 android:textStyle="bold" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -120,8 +119,7 @@
                                 android:id="@+id/subject_details_edit1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="none"
-                                android:text="@string/subject" />
+                                android:inputType="none" />
                         </com.google.android.material.textfield.TextInputLayout>
                         <!--                subject-->
 
@@ -152,8 +150,7 @@
                                 android:id="@+id/city_details_edit1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="none"
-                                android:text="@string/city" />
+                                android:inputType="none" />
                         </com.google.android.material.textfield.TextInputLayout>
                         <!--                city-->
 
@@ -184,8 +181,7 @@
                                 android:id="@+id/level_details_edit1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="none"
-                                android:text="@string/level" />
+                                android:inputType="none" />
                         </com.google.android.material.textfield.TextInputLayout>
                         <!--                level-->
 
