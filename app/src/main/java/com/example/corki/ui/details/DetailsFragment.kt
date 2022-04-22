@@ -16,7 +16,7 @@ import com.google.android.material.textfield.TextInputLayout
 import java.text.DateFormat
 import java.util.*
 
-class DetailsFragment: Fragment() {
+class DetailsFragment : Fragment() {
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
 

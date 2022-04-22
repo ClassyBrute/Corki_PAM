@@ -43,7 +43,6 @@ class SearchFragment : Fragment() {
         recyclerView?.layoutManager = LinearLayoutManager(this.context)
 
         binding.dateTime1.hint = DateFormat.getDateInstance().format(Date())
-
         binding.dateTime1.setOnClickListener { showDatePicker() }
 
         binding.floatingActionButton.setOnClickListener { initiateSearch() }

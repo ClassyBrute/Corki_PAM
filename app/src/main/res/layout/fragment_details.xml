@@ -34,7 +34,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="100dp" />
+                    app:layout_constraintGuide_begin="120dp" />
 
                 <TextView
                     android:id="@+id/textView3"
@@ -44,6 +44,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
                     android:textStyle="bold"
+                    android:textColor="@android:color/white"
                     android:text="@string/category_title"
                     android:textSize="@dimen/detail_category_text"
                     app:layout_constraintStart_toStartOf="parent"
@@ -57,6 +58,7 @@
                     android:text="@string/title"
                     android:textSize="@dimen/detail_category_text"
                     android:textStyle="bold"
+                    android:textColor="@android:color/white"
                     app:layout_constraintBottom_toBottomOf="@+id/textView3"
                     app:layout_constraintStart_toStartOf="@+id/guideline2"
                     app:layout_constraintTop_toTopOf="@+id/textView3" />
@@ -85,11 +87,12 @@
 <!--                title-->
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/subjectTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="40dp"
+                    android:textColor="@android:color/white"
                     android:textSize="@dimen/detail_category_text"
                     android:text="@string/category_subject"
                     app:layout_constraintStart_toStartOf="@+id/textView3"
@@ -100,11 +103,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/secondary_text"
+                    android:text="@string/subject"
                     android:textSize="@dimen/detail_category_text"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView4"
+                    android:textColor="@android:color/white"
+                    app:layout_constraintBottom_toBottomOf="@+id/subjectTextView"
                     app:layout_constraintStart_toStartOf="@+id/guideline2"
-                    app:layout_constraintTop_toTopOf="@+id/textView4" />
+                    app:layout_constraintTop_toTopOf="@+id/subjectTextView" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/subject_details_edit"
@@ -114,9 +118,9 @@
                     android:minWidth="180dp"
                     android:visibility="gone"
                     android:hint="@string/subject"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView4"
+                    app:layout_constraintBottom_toBottomOf="@+id/subjectTextView"
                     app:layout_constraintStart_toStartOf="@+id/guideline2"
-                    app:layout_constraintTop_toTopOf="@+id/textView4">
+                    app:layout_constraintTop_toTopOf="@+id/subjectTextView">
 
                     <AutoCompleteTextView
                         android:id="@+id/subject_details_edit1"
@@ -133,18 +137,20 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="40dp"
+                    android:textColor="@android:color/white"
                     android:textSize="@dimen/detail_category_text"
                     android:text="@string/category_city"
-                    app:layout_constraintStart_toStartOf="@+id/textView4"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                    app:layout_constraintStart_toStartOf="@+id/subjectTextView"
+                    app:layout_constraintTop_toBottomOf="@+id/subjectTextView" />
 
                 <TextView
                     android:id="@+id/city_details"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/supporting_text"
+                    android:text="@string/city"
                     android:textSize="@dimen/detail_category_text"
+                    android:textColor="@android:color/white"
                     app:layout_constraintBottom_toBottomOf="@+id/textView5"
                     app:layout_constraintStart_toStartOf="@+id/guideline2"
                     app:layout_constraintTop_toTopOf="@+id/textView5" />
@@ -176,6 +182,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="40dp"
+                    android:textColor="@android:color/white"
                     android:textSize="@dimen/detail_category_text"
                     android:text="@string/category_level"
                     app:layout_constraintStart_toStartOf="@+id/textView5"
@@ -186,8 +193,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/supporting_text"
+                    android:text="@string/level"
                     android:textSize="@dimen/detail_category_text"
+                    android:textColor="@android:color/white"
                     app:layout_constraintBottom_toBottomOf="@+id/textView9"
                     app:layout_constraintStart_toStartOf="@+id/guideline2"
                     app:layout_constraintTop_toTopOf="@+id/textView9" />
@@ -219,6 +227,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="40dp"
+                    android:textColor="@android:color/white"
                     android:textSize="@dimen/detail_category_text"
                     android:text="@string/category_price"
                     app:layout_constraintStart_toStartOf="@+id/textView9"
@@ -229,7 +238,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/supporting_text"
+                    android:textColor="@android:color/white"
+                    android:text="@string/max_price"
                     android:textSize="@dimen/detail_category_text"
                     app:layout_constraintBottom_toBottomOf="@+id/textView6"
                     app:layout_constraintStart_toStartOf="@+id/guideline2"
@@ -262,6 +272,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="40dp"
+                    android:textColor="@android:color/white"
                     android:textSize="@dimen/detail_category_text"
                     android:text="@string/category_date"
                     app:layout_constraintStart_toStartOf="@+id/textView6"
@@ -272,7 +283,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/supporting_text"
+                    android:textColor="@android:color/white"
+                    android:text="@string/category_date"
                     android:textSize="@dimen/detail_category_text"
                     app:layout_constraintBottom_toBottomOf="@+id/textView7"
                     app:layout_constraintStart_toStartOf="@+id/guideline2"
@@ -305,6 +317,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:textColor="@android:color/white"
                     android:textSize="@dimen/detail_category_text"
                     android:layout_marginTop="40dp"
                     android:text="@string/category_owner"
@@ -316,7 +329,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/supporting_text"
+                    android:textColor="@android:color/white"
+                    android:text="Maciek"
                     android:textSize="@dimen/detail_category_text"
                     app:layout_constraintBottom_toBottomOf="@+id/textView8"
                     app:layout_constraintStart_toStartOf="@+id/guideline2"

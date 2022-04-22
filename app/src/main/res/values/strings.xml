@@ -23,6 +23,17 @@
     <string name="category_price">Price:</string>
     <string name="category_date">Date:</string>
     <string name="category_owner">Owner:</string>
+    <string name="create_title">Create your notice!</string>
+    <string name="profile_name">Name:</string>
+    <string name="name">Name</string>
+    <string name="profile_surname">Surname:</string>
+    <string name="surname">Surname</string>
+    <string name="profile_email">Email:</string>
+    <string name="email">Email</string>
+    <string name="profile_phone">Phone:</string>
+    <string name="phone">Phone</string>
+    <string name="profile_birthday">Birthday:</string>
+    <string name="hint_number">123456789</string>
 
     <string-array name="subjects">
         <item> Maths </item>
