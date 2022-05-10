@@ -1,4 +1,4 @@
-package com.example.corki.ui.profile
+package com.example.corki.ui.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,34 +10,36 @@ import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.corki.R
-import com.example.corki.databinding.FragmentProfileBinding
+import com.example.corki.databinding.FragmentDetailsBinding
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputLayout
 import java.text.DateFormat
 import java.util.*
 
-class ProfileFragment : Fragment() {
-    private var _binding: FragmentProfileBinding? = null
+class DetailsFragment : Fragment() {
+    private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
+        val detailsViewModel = ViewModelProvider(this).get(DetailsViewModel::class.java)
 
-        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        _binding = FragmentDetailsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        binding.profileEdit.setOnClickListener {
+        binding.titleCard.text = arguments?.getString("title")
+
+        binding.detailsEdit.setOnClickListener {
             val texts: List<TextView>
             val menus: List<TextInputLayout>
 
             with (binding) {
-                texts = listOf(nameProfile, surnameProfile, cityProfile, phoneProfile, birthdayProfile)
-                menus = listOf(nameProfileEdit, surnameProfileEdit, cityProfileEdit,
-                    phoneProfileEdit, birthdayProfileEdit)
+                texts = listOf(titleCard, subjectDetails, cityDetails, priceDetails, dateDetails)
+                menus = listOf(titleCardEdit, subjectDetailsEdit, dateDetailsEdit,
+                    cityDetailsEdit, levelDetailsEdit, priceDetailsEdit)
             }
 
-            if (binding.nameProfileEdit.visibility == View.VISIBLE) {
+            if (binding.subjectDetailsEdit.visibility == View.VISIBLE) {
                 menus.forEach { it.visibility = View.GONE }
                 texts.forEach { it.visibility = View.VISIBLE }
             } else {
@@ -48,9 +50,9 @@ class ProfileFragment : Fragment() {
 
         var dateRangePicker: MaterialDatePicker<Pair<Long, Long>>?
         var dateRange: Pair<Long, Long>?
-        binding.birthdayProfileEdit1.setText(DateFormat.getDateInstance().format(Date()))
+        binding.dateDetailsEdit1.setText(DateFormat.getDateInstance().format(Date()))
 
-        binding.birthdayProfileEdit1.setOnClickListener {
+        binding.dateDetailsEdit1.setOnClickListener {
             dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
                 .setTitleText("Select dates")
                 .setSelection(
@@ -69,7 +71,7 @@ class ProfileFragment : Fragment() {
                 val first = DateFormat.getDateInstance().format(dateRange?.first)
                 val second = DateFormat.getDateInstance().format(dateRange?.second)
                 val date = "$first - $second"
-                binding.birthdayProfileEdit1.setText(date)
+                binding.dateDetailsEdit1.setText(date)
             }
         }
 
@@ -78,10 +80,17 @@ class ProfileFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        val subjects = resources.getStringArray(R.array.subjects)
+        val arrayAdapter1 = ArrayAdapter(requireContext(), R.layout.search_item, subjects)
+        binding.subjectDetailsEdit1.setAdapter(arrayAdapter1)
+
+        val levels = resources.getStringArray(R.array.level)
+        val arrayAdapter2 = ArrayAdapter(requireContext(), R.layout.search_item, levels)
+        binding.levelDetailsEdit1.setAdapter(arrayAdapter2)
 
         val cities = resources.getStringArray(R.array.city)
         val arrayAdapter3 = ArrayAdapter(requireContext(), R.layout.search_item, cities)
-        binding.cityProfileEdit1.setAdapter(arrayAdapter3)
+        binding.cityDetailsEdit1.setAdapter(arrayAdapter3)
     }
 
     override fun onDestroyView() {
