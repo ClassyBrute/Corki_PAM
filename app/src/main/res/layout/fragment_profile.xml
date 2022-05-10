@@ -36,7 +36,6 @@
                         android:id="@+id/constraintLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:padding="16dp">
 
                         <androidx.constraintlayout.widget.Guideline
@@ -47,6 +46,7 @@
                             app:layout_constraintGuide_begin="120dp" />
 
                         <com.google.android.material.button.MaterialButton
+                            android:id="@+id/logout_button"
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

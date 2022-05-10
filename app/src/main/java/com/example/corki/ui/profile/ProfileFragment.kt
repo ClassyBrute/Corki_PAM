@@ -6,9 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.example.corki.MainActivity
 import com.example.corki.R
 import com.example.corki.databinding.FragmentProfileBinding
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -26,6 +29,17 @@ class ProfileFragment : Fragment() {
 
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        binding.logoutButton.setOnClickListener {
+            // TODO logout user
+            Toast.makeText(
+                requireContext(),
+                "User successfully logged out!",
+                Toast.LENGTH_SHORT)
+                .show()
+            findNavController().navigate(R.id.action_navigation_profile_to_fragment_login)
+            (activity as MainActivity).bottomNavGone()
+        }
 
         binding.profileEdit.setOnClickListener {
             val texts: List<TextView>
