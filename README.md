@@ -1,2 +1,2 @@
 # Corki_PAM
-This is a mobile application project repository
+Projekt aplikacji mobilnej tworzonej w ramach przedmiotu PAM1
