@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.core.text.parseAsHtml
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -14,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.corki.R
 import com.example.corki.databinding.FragmentSearchBinding
+import com.example.corki.models.post.Post
+import com.example.corki.viewmodel.PostViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import org.json.JSONObject
 import java.text.DateFormat
@@ -28,13 +29,15 @@ class SearchFragment : Fragment() {
     private var _recyclerView: RecyclerView? = null
     private val recyclerView get() = _recyclerView
 
-    private val data = ArrayList<ItemsViewModel>()
     private var firstJson: String = ""
     private var secondJson: String = ""
 
+    //POSTS
+    private lateinit var postViewModel: PostViewModel
+    private var postsList = emptyList<Post>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val searchViewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
 
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -47,21 +50,21 @@ class SearchFragment : Fragment() {
 
         binding.floatingActionButton.setOnClickListener { initiateSearch() }
 
-        getOffers()
-
-        val adapter = ItemAdapter(data)
-        recyclerView?.adapter = adapter
+        postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
+        postViewModel.postViewModel()
+        observePostViewModel()
 
         return root
     }
 
-    private fun getOffers() {
-        data.add(ItemsViewModel("hejka"))
-        data.add(ItemsViewModel("hejka123"))
-        data.add(ItemsViewModel("hejka123456"))
-        data.add(ItemsViewModel("hejka456"))
-        data.add(ItemsViewModel("hejka456"))
-        data.add(ItemsViewModel("hejka456"))
+    private fun observePostViewModel() {
+        postViewModel.getPosts().observe(viewLifecycleOwner) { data ->
+            data.posts.let {
+                postsList = it
+            }
+            val adapter = PostsAdapter(postsList)
+            recyclerView?.adapter = adapter
+        }
     }
 
     private fun initiateSearch() {
