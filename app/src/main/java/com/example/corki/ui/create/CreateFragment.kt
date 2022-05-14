@@ -5,14 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.corki.R
 import com.example.corki.databinding.FragmentCreateBinding
-import com.example.corki.ui.search.ItemsViewModel
+import com.example.corki.models.post.Post
+import com.example.corki.viewmodel.PostViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import org.json.JSONObject
 import java.text.DateFormat
@@ -24,9 +24,11 @@ class CreateFragment : Fragment() {
     private var _binding: FragmentCreateBinding? = null
     private val binding get() = _binding!!
 
-    private val data = ArrayList<ItemsViewModel>()
     private var firstJson: String = ""
     private var secondJson: String = ""
+
+    private lateinit var postViewModel: PostViewModel
+    private var postsList = emptyList<Post>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {

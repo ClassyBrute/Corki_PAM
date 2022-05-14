@@ -18,7 +18,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
