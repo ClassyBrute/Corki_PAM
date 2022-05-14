@@ -3,9 +3,7 @@ package com.example.corki.service
 import com.example.corki.models.post.Post
 import com.example.corki.models.post.Posts
 import io.reactivex.rxjava3.core.Single
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.QueryMap
+import retrofit2.http.*
 
 interface CorkiAPI {
     //POSTS
@@ -16,4 +14,9 @@ interface CorkiAPI {
     fun getPostsWithQuery(@QueryMap(encoded=true) map: Map<String, String>): Single<Posts>
 
     //ACCOUNT
+    @POST("login")
+    fun postLogin(@Body map: Map<String, String>): Single<String>
+
+    @POST("register")
+    fun postRegister(@Body map: Map<String, String>): Single<String>
 }

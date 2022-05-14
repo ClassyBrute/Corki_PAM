@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -59,30 +58,22 @@ class ProfileFragment : Fragment() {
                 texts.forEach { it.visibility = View.GONE }
             }
         }
-
-        var dateRangePicker: MaterialDatePicker<Pair<Long, Long>>?
-        var dateRange: Pair<Long, Long>?
         binding.birthdayProfileEdit1.setText(DateFormat.getDateInstance().format(Date()))
 
         binding.birthdayProfileEdit1.setOnClickListener {
-            dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
+            val datePicker: MaterialDatePicker<Long>?
+
+            datePicker = MaterialDatePicker.Builder.datePicker()
                 .setTitleText("Select dates")
-                .setSelection(
-                    Pair(
-                        MaterialDatePicker.thisMonthInUtcMilliseconds(),
-                        MaterialDatePicker.todayInUtcMilliseconds()
-                    )
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds()
                 )
                 .setTheme(com.google.android.material.R.style.ThemeOverlay_MaterialComponents_MaterialCalendar)
                 .build()
 
-            dateRangePicker!!.show(parentFragmentManager, "MATERIAL_DATE_PICKER")
+            datePicker.show(parentFragmentManager, "MATERIAL_DATE_PICKER")
 
-            dateRangePicker?.addOnPositiveButtonClickListener {
-                dateRange = Pair(dateRangePicker!!.selection?.first, dateRangePicker!!.selection?.second)
-                val first = DateFormat.getDateInstance().format(dateRange?.first)
-                val second = DateFormat.getDateInstance().format(dateRange?.second)
-                val date = "$first - $second"
+            datePicker.addOnPositiveButtonClickListener {
+                val date = DateFormat.getDateInstance().format(datePicker.selection)
                 binding.birthdayProfileEdit1.setText(date)
             }
         }

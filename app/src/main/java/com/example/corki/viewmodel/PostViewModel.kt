@@ -1,5 +1,6 @@
 package com.example.corki.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -34,6 +35,7 @@ class PostViewModel : ViewModel() {
 
                 override fun onError(e: Throwable) {
                     postError.value = true
+                    Log.e("post_query", e.toString())
                 }
             })
     }
@@ -50,6 +52,7 @@ class PostViewModel : ViewModel() {
 
                 override fun onError(e: Throwable) {
                     postError.value = true
+                    Log.e("post", e.toString())
                 }
             })
     }
