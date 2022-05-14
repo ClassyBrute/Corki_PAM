@@ -60,30 +60,19 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        var dateRangePicker: MaterialDatePicker<Pair<Long, Long>>?
-        var dateRange: Pair<Long, Long>?
         binding.birthdayProfileEdit1.setText(DateFormat.getDateInstance().format(Date()))
 
         binding.birthdayProfileEdit1.setOnClickListener {
-            dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
+            val datePicker: MaterialDatePicker<Long> = MaterialDatePicker.Builder.datePicker()
                 .setTitleText("Select dates")
-                .setSelection(
-                    Pair(
-                        MaterialDatePicker.thisMonthInUtcMilliseconds(),
-                        MaterialDatePicker.todayInUtcMilliseconds()
-                    )
-                )
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                 .setTheme(com.google.android.material.R.style.ThemeOverlay_MaterialComponents_MaterialCalendar)
                 .build()
 
-            dateRangePicker!!.show(parentFragmentManager, "MATERIAL_DATE_PICKER")
+            datePicker.show(parentFragmentManager, "MATERIAL_DATE_PICKER")
 
-            dateRangePicker?.addOnPositiveButtonClickListener {
-                dateRange = Pair(dateRangePicker!!.selection?.first, dateRangePicker!!.selection?.second)
-                val first = DateFormat.getDateInstance().format(dateRange?.first)
-                val second = DateFormat.getDateInstance().format(dateRange?.second)
-                val date = "$first - $second"
-                binding.birthdayProfileEdit1.setText(date)
+            datePicker.addOnPositiveButtonClickListener {
+                binding.birthdayProfileEdit1.setText(DateFormat.getDateInstance().format(datePicker.selection))
             }
         }
 

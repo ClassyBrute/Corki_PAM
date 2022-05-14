@@ -244,11 +244,43 @@
                                 android:layout_height="match_parent"
                                 android:gravity="center"
                                 android:inputType="none"
+                                android:focusableInTouchMode="false"
                                 android:paddingHorizontal="10dp">
 
                             </AutoCompleteTextView>
                         </com.google.android.material.textfield.TextInputLayout>
                         <!--                date-->
+
+                        <TextView
+                            android:id="@+id/durationTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="40dp"
+                            android:textColor="@android:color/white"
+                            android:text="@string/category_duration"
+                            android:textSize="@dimen/detail_category_text"
+                            app:layout_constraintStart_toStartOf="@+id/dateTextView"
+                            app:layout_constraintTop_toBottomOf="@+id/dateTextView" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/duration_details_edit"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/duration"
+                            android:minWidth="180dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/durationTextView"
+                            app:layout_constraintStart_toStartOf="@+id/guideline2"
+                            app:layout_constraintTop_toTopOf="@+id/durationTextView">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/duration_details_edit1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="none" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <!--                duration-->
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -320,6 +320,7 @@
                                 android:layout_height="match_parent"
                                 android:gravity="start|center"
                                 android:inputType="none"
+                                android:focusableInTouchMode="false"
                                 android:paddingHorizontal="5dp">
 
                             </AutoCompleteTextView>

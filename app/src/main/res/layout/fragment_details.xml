@@ -306,11 +306,56 @@
                         android:layout_height="match_parent"
                         android:paddingHorizontal="5dp"
                         android:inputType="none"
+                        android:focusableInTouchMode="false"
                         android:gravity="start|center" >
 
                     </AutoCompleteTextView>
                 </com.google.android.material.textfield.TextInputLayout>
 <!--                date-->
+
+                <TextView
+                    android:id="@+id/durationTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="40dp"
+                    android:textColor="@android:color/white"
+                    android:text="@string/category_duration"
+                    android:textSize="@dimen/detail_category_text"
+                    app:layout_constraintStart_toStartOf="@+id/textView7"
+                    app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+                <TextView
+                    android:id="@+id/durationDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@android:color/white"
+                    android:text="@string/duration"
+                    android:textSize="@dimen/detail_category_text"
+                    app:layout_constraintBottom_toBottomOf="@+id/durationTextView"
+                    app:layout_constraintStart_toStartOf="@+id/guideline2"
+                    app:layout_constraintTop_toTopOf="@+id/durationTextView" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/duration_details_edit"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/duration"
+                    android:minWidth="180dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/durationTextView"
+                    app:layout_constraintStart_toStartOf="@+id/guideline2"
+                    app:layout_constraintTop_toTopOf="@+id/durationTextView">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/duration_details_edit1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <!--                duration-->
 
                 <TextView
                     android:id="@+id/textView8"
@@ -321,8 +366,8 @@
                     android:textSize="@dimen/detail_category_text"
                     android:layout_marginTop="40dp"
                     android:text="@string/category_owner"
-                    app:layout_constraintStart_toStartOf="@+id/textView7"
-                    app:layout_constraintTop_toBottomOf="@+id/textView7" />
+                    app:layout_constraintStart_toStartOf="@+id/durationTextView"
+                    app:layout_constraintTop_toBottomOf="@+id/durationTextView" />
 
                 <TextView
                     android:id="@+id/owner_details"
