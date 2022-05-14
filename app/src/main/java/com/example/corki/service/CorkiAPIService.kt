@@ -17,11 +17,21 @@ class CorkiAPIService {
         .build()
         .create(CorkiAPI::class.java)
 
+    //POSTS
     fun getPostsDataWithQuery(map : Map<String, String>): Single<Posts> {
         return api.getPostsWithQuery(map)
     }
 
     fun getPostData(id: String): Single<Post> {
         return api.getPost(id)
+    }
+
+    //ACCOUNT
+    fun postLoginData(map: Map<String, String>): Single<String> {
+        return api.postLogin(map)
+    }
+
+    fun postRegisterData(map: Map<String, String>): Single<String> {
+        return api.postRegister(map)
     }
 }

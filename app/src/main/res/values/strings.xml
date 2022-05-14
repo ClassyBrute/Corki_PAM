@@ -35,6 +35,7 @@
     <string name="profile_phone">Phone:</string>
     <string name="phone">Phone</string>
     <string name="profile_birthday">Birthday:</string>
+    <string name="birthday">Birthday</string>
     <string name="hint_number">123456789</string>
     <string name="log_out">log out</string>
 
@@ -91,7 +92,7 @@
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome!"</string>
     <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="invalid_password">Password must be >2 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="create_new_account">Create new account</string>
     <string name="log_in">Log in</string>

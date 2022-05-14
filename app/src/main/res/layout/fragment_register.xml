@@ -72,8 +72,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionDone"
-                        android:inputType="text"
-                        android:text="@string/name" />
+                        android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <!--                name-->
 
@@ -103,8 +102,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionDone"
-                        android:inputType="text"
-                        android:text="@string/surname" />
+                        android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <!--                surname-->
 
@@ -134,8 +132,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionDone"
-                        android:inputType="text"
-                        android:text="@string/email" />
+                        android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <!--                email-->
 
@@ -165,8 +162,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionDone"
-                        android:inputType="textPassword"
-                        android:text="@string/register_password" />
+                        android:inputType="textPassword" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <!--                password-->
 
@@ -194,6 +190,7 @@
                         android:id="@+id/birthday_register_edit1"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:focusableInTouchMode="false"
                         android:gravity="start|center"
                         android:inputType="none"
                         android:focusableInTouchMode="false"
