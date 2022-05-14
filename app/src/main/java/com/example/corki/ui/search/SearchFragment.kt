@@ -5,17 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Toast
-import androidx.core.text.parseAsHtml
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.corki.R
+import com.example.corki.adapters.PostsAdapter
 import com.example.corki.databinding.FragmentSearchBinding
+import com.example.corki.models.post.Post
+import com.example.corki.viewmodel.PostViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
-import org.json.JSONObject
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -28,13 +28,18 @@ class SearchFragment : Fragment() {
     private var _recyclerView: RecyclerView? = null
     private val recyclerView get() = _recyclerView
 
-    private val data = ArrayList<ItemsViewModel>()
     private var firstJson: String = ""
     private var secondJson: String = ""
 
+    //POSTS
+    private lateinit var postViewModel: PostViewModel
+    private var postsList = emptyList<Post>()
+
+    //FILTERS
+    private var map = mutableMapOf<String, String>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val searchViewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
 
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -45,46 +50,48 @@ class SearchFragment : Fragment() {
         binding.dateTime1.hint = DateFormat.getDateInstance().format(Date())
         binding.dateTime1.setOnClickListener { showDatePicker() }
 
-        binding.floatingActionButton.setOnClickListener { initiateSearch() }
+        postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
+        postViewModel.postViewModel()
+        observePostViewModel()
 
-        getOffers()
-
-        val adapter = ItemAdapter(data)
-        recyclerView?.adapter = adapter
+        binding.floatingActionButton.setOnClickListener {
+            initiateSearch()
+        }
 
         return root
     }
 
-    private fun getOffers() {
-        data.add(ItemsViewModel("hejka"))
-        data.add(ItemsViewModel("hejka123"))
-        data.add(ItemsViewModel("hejka123456"))
-        data.add(ItemsViewModel("hejka456"))
-        data.add(ItemsViewModel("hejka456"))
-        data.add(ItemsViewModel("hejka456"))
+    private fun observePostViewModel() {
+        postViewModel.getPostsWithQuery(map).observe(viewLifecycleOwner) { data ->
+            data.posts.let {
+                postsList = it
+            }
+            val adapter = PostsAdapter(postsList)
+            recyclerView?.adapter = adapter
+        }
     }
 
     private fun initiateSearch() {
-        val json = JSONObject()
+        map = mutableMapOf<String, String>()
 
         if (!binding.menuSubjectItem.text.isNullOrEmpty()) {
-            json.put("subject", binding.menuSubjectItem.text)
+            map["subjects"] = binding.menuSubjectItem.text.toString().lowercase()
         }
         if (!binding.menuLevelItem.text.isNullOrEmpty()) {
-            json.put("level", binding.menuLevelItem.text)
+            map["level"] = binding.menuLevelItem.text.toString().lowercase()
         }
         if (!binding.menuCityItem.text.isNullOrEmpty()) {
-            json.put("city", binding.menuCityItem.text)
+            map["cities"] = binding.menuCityItem.text.toString()
         }
         if (!binding.maxPriceEdit.text.isNullOrEmpty()) {
-            json.put("price", binding.maxPriceEdit.text)
+            map["price"] = binding.maxPriceEdit.text.toString()
         }
         if (!binding.dateTime1.text.isNullOrEmpty()) {
-            json.put("dateFrom", firstJson)
-            json.put("dateTo", secondJson)
+            map["dateFrom"] = firstJson
+            map["dateTo"] = secondJson
         }
 
-        Toast.makeText(context, json.toString(), Toast.LENGTH_LONG).show()
+        postViewModel.getPostsWithQuery(map)
     }
 
     private fun showDatePicker() {

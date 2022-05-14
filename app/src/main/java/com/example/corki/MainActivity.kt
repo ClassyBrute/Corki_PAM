@@ -1,7 +1,6 @@
 package com.example.corki
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
@@ -10,6 +9,13 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.corki.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.security.KeyManagementException
+import java.security.NoSuchAlgorithmException
+import java.security.SecureRandom
+import java.security.cert.CertificateException
+import java.security.cert.X509Certificate
+import javax.net.ssl.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,7 +23,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
 
         binding = ActivityMainBinding.inflate(layoutInflater)

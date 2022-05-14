@@ -37,9 +37,17 @@
     <string name="log_out">log out</string>
 
     <string-array name="subjects">
-        <item> Maths </item>
+        <item> Math </item>
         <item> Physics </item>
         <item> Chemistry </item>
+        <item> Geography </item>
+        <item> Biology </item>
+        <item> History </item>
+        <item> Computer Science </item>
+        <item> Art </item>
+        <item> Polish </item>
+        <item> Japanese </item>
+        <item> Spanish </item>
     </string-array>
 
     <string-array name="level">
@@ -53,5 +61,15 @@
         <item> Wrocław </item>
         <item> Poznań </item>
         <item> Warszawa </item>
+        <item> Kraków </item>
+        <item> Łódź </item>
+        <item> Gdańsk </item>
+        <item> Szczecin </item>
+        <item> Bydgoszcz </item>
+        <item> Lublin </item>
+        <item> Białystok </item>
+        <item> Katowice </item>
+        <item> Gdynia </item>
+        <item> Częstochowa </item>
     </string-array>
 </resources>
