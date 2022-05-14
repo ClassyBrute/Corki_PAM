@@ -72,4 +72,21 @@
         <item> Gdynia </item>
         <item> Częstochowa </item>
     </string-array>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="register_question">Don\'t have an account yet?</string>
+    <string name="action_register">Register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="create_new_account">Create new account</string>
+    <string name="log_in">Log in</string>
+    <string name="register_password">Password</string>
+    <string name="password">Password:</string>
+    <string name="license_agreement">I accept the license and terms</string>
 </resources>
