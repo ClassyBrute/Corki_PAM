@@ -10,7 +10,10 @@ import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.corki.R
+import com.example.corki.adapters.PostsAdapter
 import com.example.corki.databinding.FragmentDetailsBinding
+import com.example.corki.models.post.Post
+import com.example.corki.viewmodel.PostViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputLayout
 import java.text.DateFormat
@@ -20,6 +23,9 @@ class DetailsFragment : Fragment() {
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
 
+    //POST
+    private lateinit var postViewModel: PostViewModel
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         val detailsViewModel = ViewModelProvider(this).get(DetailsViewModel::class.java)
@@ -27,7 +33,9 @@ class DetailsFragment : Fragment() {
         _binding = FragmentDetailsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        binding.titleCard.text = arguments?.getString("title")
+        postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
+        postViewModel.postViewModel()
+        observePostViewModel(arguments?.getString("id")!!)
 
         binding.detailsEdit.setOnClickListener {
             val texts: List<TextView>
@@ -96,5 +104,40 @@ class DetailsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun observePostViewModel(id: String) {
+        postViewModel.getPost(id).observe(viewLifecycleOwner) { data ->
+            with(binding) {
+                var tempString = ""
+
+                //TITLE
+                titleCard.text = data.title
+
+                //SUBJECTS
+                data.subjects.forEach { tempString += "$it, "}
+                subjectDetails.text = tempString
+                tempString = ""
+
+                //CITIES
+                data.cities.forEach { tempString += "$it, "}
+                cityDetails.text = tempString
+                tempString = ""
+
+                //LEVEL
+                data.level.forEach { tempString += "$it, "}
+                levelDetails.text = tempString
+                tempString = ""
+
+                //PRICE
+                priceDetails.text = data.price.toString()
+
+                //DATE
+                dateDetails.text = "${data.dateFrom} - ${data.dateTo}"
+
+                //OWNER
+                ownerDetails.text = data.ownerId
+            }
+        }
     }
 }

@@ -1,6 +1,5 @@
 package com.example.corki.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,21 +14,37 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 class PostViewModel : ViewModel() {
     private lateinit var service : CorkiAPIService
     private lateinit var dispose : Disposable
-    var postData = MutableLiveData<Posts>()
+    var postData = MutableLiveData<Post>()
+    var postsData = MutableLiveData<Posts>()
     var postError = MutableLiveData<Boolean>()
 
     fun postViewModel() {
         service = CorkiAPIService()
-        fetchData()
     }
 
-    private fun fetchData() {
-        dispose = service.getPostsData()
+    private fun fetchPostsWithQuery(map: Map<String, String>) {
+        dispose = service.getPostsDataWithQuery(map)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object: DisposableSingleObserver<Posts>(){
-                override fun onSuccess(value: Posts) {
-                    postData.value = value
+                override fun onSuccess(t: Posts) {
+                    postsData.value = t
+                    postError.value = false
+                }
+
+                override fun onError(e: Throwable) {
+                    postError.value = true
+                }
+            })
+    }
+
+    private fun fetchPost(id: String) {
+        dispose = service.getPostData(id)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object: DisposableSingleObserver<Post>(){
+                override fun onSuccess(t: Post) {
+                    postData.value = t
                     postError.value = false
                 }
 
@@ -43,7 +58,13 @@ class PostViewModel : ViewModel() {
         dispose.dispose()
     }
 
-    fun getPosts() : LiveData<Posts> {
+    fun getPostsWithQuery(map: Map<String, String>) : LiveData<Posts> {
+        fetchPostsWithQuery(map)
+        return postsData
+    }
+
+    fun getPost(id: String) : LiveData<Post> {
+        fetchPost(id)
         return postData
     }
 
