@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.text.parseAsHtml
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -14,18 +15,23 @@ import com.example.corki.databinding.FragmentCreateBinding
 import com.example.corki.models.post.Post
 import com.example.corki.viewmodel.PostViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import org.json.JSONObject
+import java.sql.Time
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.time.Duration.Companion.milliseconds
 
 class CreateFragment : Fragment() {
 
     private var _binding: FragmentCreateBinding? = null
     private val binding get() = _binding!!
 
-    private var firstJson: String = ""
-    private var secondJson: String = ""
+    private var dateFrom = ""
+    private var dateTo = ""
+    private var dateLong = 0L
 
     private lateinit var postViewModel: PostViewModel
     private var postsList = emptyList<Post>()
@@ -46,32 +52,37 @@ class CreateFragment : Fragment() {
     }
 
     private fun showDatePicker() {
-        val dateRangePicker: MaterialDatePicker<Pair<Long, Long>>?
-        var dateRange: Pair<Long, Long>?
-
-        dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
-            .setTitleText("Select dates")
-            .setSelection(
-                Pair(
-                    MaterialDatePicker.thisMonthInUtcMilliseconds(),
-                    MaterialDatePicker.todayInUtcMilliseconds()
-                )
-            )
+        val datePicker: MaterialDatePicker<Long> = MaterialDatePicker.Builder.datePicker()
+            .setTitleText("Select date")
+            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
             .setTheme(com.google.android.material.R.style.ThemeOverlay_MaterialComponents_MaterialCalendar)
             .build()
 
-        dateRangePicker.show(parentFragmentManager, "MATERIAL_DATE_PICKER")
+        datePicker.show(parentFragmentManager, "MATERIAL_DATE_PICKER")
 
-        dateRangePicker.addOnPositiveButtonClickListener {
-            //TODO TIME PICKER MAYBE
-            dateRange = Pair(dateRangePicker.selection?.first, dateRangePicker.selection?.second)
-            val first = DateFormat.getDateInstance().format(dateRange?.first)
-            firstJson = "${SimpleDateFormat("yyyy-MM-dd").format(Date(dateRange!!.first))}T00:00:00Z"
-            val second = DateFormat.getDateInstance().format(dateRange?.second)
-            secondJson = "${SimpleDateFormat("yyyy-MM-dd").format(Date(dateRange!!.second))}T23:59:59Z"
+        datePicker.addOnPositiveButtonClickListener {
+            val timePicker = MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_24H)
+                .setHour(12)
+                .setMinute(0)
+                .setTitleText("Select time")
+                .build()
 
-            val date = "$first - $second"
-            binding.dateDetailsEdit1.setText(date)
+            timePicker.show(parentFragmentManager, "MATERIAL_TIME_PICKER")
+
+            timePicker.addOnPositiveButtonClickListener {
+                var hour = timePicker.hour.toString()
+                var minute = timePicker.minute.toString()
+                val date = DateFormat.getDateInstance().format(datePicker.selection)
+
+                if (hour.length < 2) hour = "0$hour"
+                if (minute.length < 2) minute = "0$minute"
+
+                dateFrom = "${SimpleDateFormat("yyyy-MM-dd").format(datePicker.selection)}T$hour:$minute:00Z"
+                dateLong = SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ss'Z'").parse(dateFrom).time
+
+                binding.dateDetailsEdit1.setText("$date $hour:$minute")
+            }
         }
     }
 
@@ -94,8 +105,12 @@ class CreateFragment : Fragment() {
             json.put("price", binding.priceDetailsEdit1.text)
         }
         if (!binding.dateDetailsEdit1.text.isNullOrEmpty()) {
-            json.put("dateFrom", firstJson)
-            json.put("dateTo", secondJson)
+            json.put("dateFrom", dateFrom)
+        }
+        if (!binding.durationDetailsEdit1.text.isNullOrEmpty()) {
+            val tempDate = dateLong + binding.durationDetailsEdit1.text.toString().toInt() * 60000
+            dateTo = SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ss'Z'").format(tempDate)
+            json.put("dateTo", dateTo)
         }
 
         Toast.makeText(context, json.toString(), Toast.LENGTH_LONG).show()
@@ -114,6 +129,10 @@ class CreateFragment : Fragment() {
         val cities = resources.getStringArray(R.array.city)
         val arrayAdapter3 = ArrayAdapter(requireContext(), R.layout.search_item, cities)
         binding.cityDetailsEdit1.setAdapter(arrayAdapter3)
+
+        val duration = resources.getStringArray(R.array.duration)
+        val arrayAdapter4 = ArrayAdapter(requireContext(), R.layout.search_item, duration)
+        binding.durationDetailsEdit1.setAdapter(arrayAdapter4)
     }
 
     override fun onDestroyView() {

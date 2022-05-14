@@ -110,6 +110,7 @@
                     android:layout_height="match_parent"
                     android:paddingHorizontal="5dp"
                     android:inputType="none"
+                    android:focusableInTouchMode="false"
                     android:layout_weight="1"
                     android:gravity="center" >
 

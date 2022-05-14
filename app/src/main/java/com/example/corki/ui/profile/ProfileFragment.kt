@@ -58,23 +58,20 @@ class ProfileFragment : Fragment() {
                 texts.forEach { it.visibility = View.GONE }
             }
         }
+
         binding.birthdayProfileEdit1.setText(DateFormat.getDateInstance().format(Date()))
 
         binding.birthdayProfileEdit1.setOnClickListener {
-            val datePicker: MaterialDatePicker<Long>?
-
-            datePicker = MaterialDatePicker.Builder.datePicker()
+            val datePicker: MaterialDatePicker<Long> = MaterialDatePicker.Builder.datePicker()
                 .setTitleText("Select dates")
-                .setSelection(MaterialDatePicker.todayInUtcMilliseconds()
-                )
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                 .setTheme(com.google.android.material.R.style.ThemeOverlay_MaterialComponents_MaterialCalendar)
                 .build()
 
             datePicker.show(parentFragmentManager, "MATERIAL_DATE_PICKER")
 
             datePicker.addOnPositiveButtonClickListener {
-                val date = DateFormat.getDateInstance().format(datePicker.selection)
-                binding.birthdayProfileEdit1.setText(date)
+                binding.birthdayProfileEdit1.setText(DateFormat.getDateInstance().format(datePicker.selection))
             }
         }
 

@@ -321,6 +321,7 @@
                                 android:focusableInTouchMode="false"
                                 android:gravity="start|center"
                                 android:inputType="none"
+                                android:focusableInTouchMode="false"
                                 android:paddingHorizontal="5dp">
 
                             </AutoCompleteTextView>

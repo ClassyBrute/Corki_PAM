@@ -1,6 +1,7 @@
 package com.example.corki.ui.details
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,12 +17,20 @@ import com.example.corki.models.post.Post
 import com.example.corki.viewmodel.PostViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
+import java.lang.NullPointerException
 import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 class DetailsFragment : Fragment() {
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
+
+    private var dateFrom = ""
+    private var dateTo = ""
+    private var dateLong = 0L
 
     //POST
     private lateinit var postViewModel: PostViewModel
@@ -42,9 +51,10 @@ class DetailsFragment : Fragment() {
             val menus: List<TextInputLayout>
 
             with (binding) {
-                texts = listOf(titleCard, subjectDetails, cityDetails, priceDetails, dateDetails)
+                texts = listOf(titleCard, subjectDetails, cityDetails, priceDetails,
+                    dateDetails, durationDetails)
                 menus = listOf(titleCardEdit, subjectDetailsEdit, dateDetailsEdit,
-                    cityDetailsEdit, levelDetailsEdit, priceDetailsEdit)
+                    cityDetailsEdit, levelDetailsEdit, priceDetailsEdit, durationDetailsEdit)
             }
 
             if (binding.subjectDetailsEdit.visibility == View.VISIBLE) {
@@ -56,34 +66,46 @@ class DetailsFragment : Fragment() {
             }
         }
 
-        var dateRangePicker: MaterialDatePicker<Pair<Long, Long>>?
-        var dateRange: Pair<Long, Long>?
         binding.dateDetailsEdit1.setText(DateFormat.getDateInstance().format(Date()))
 
-        binding.dateDetailsEdit1.setOnClickListener {
-            dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
-                .setTitleText("Select dates")
-                .setSelection(
-                    Pair(
-                        MaterialDatePicker.thisMonthInUtcMilliseconds(),
-                        MaterialDatePicker.todayInUtcMilliseconds()
-                    )
-                )
-                .setTheme(com.google.android.material.R.style.ThemeOverlay_MaterialComponents_MaterialCalendar)
-                .build()
-
-            dateRangePicker!!.show(parentFragmentManager, "MATERIAL_DATE_PICKER")
-
-            dateRangePicker?.addOnPositiveButtonClickListener {
-                dateRange = Pair(dateRangePicker!!.selection?.first, dateRangePicker!!.selection?.second)
-                val first = DateFormat.getDateInstance().format(dateRange?.first)
-                val second = DateFormat.getDateInstance().format(dateRange?.second)
-                val date = "$first - $second"
-                binding.dateDetailsEdit1.setText(date)
-            }
-        }
+        binding.dateDetailsEdit1.setOnClickListener { showDatePicker() }
 
         return root
+    }
+
+    private fun showDatePicker() {
+        val datePicker: MaterialDatePicker<Long> = MaterialDatePicker.Builder.datePicker()
+            .setTitleText("Select date")
+            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .setTheme(com.google.android.material.R.style.ThemeOverlay_MaterialComponents_MaterialCalendar)
+            .build()
+
+        datePicker.show(parentFragmentManager, "MATERIAL_DATE_PICKER")
+
+        datePicker.addOnPositiveButtonClickListener {
+            val timePicker = MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_24H)
+                .setHour(12)
+                .setMinute(0)
+                .setTitleText("Select time")
+                .build()
+
+            timePicker.show(parentFragmentManager, "MATERIAL_TIME_PICKER")
+
+            timePicker.addOnPositiveButtonClickListener {
+                var hour = timePicker.hour.toString()
+                var minute = timePicker.minute.toString()
+                val date = DateFormat.getDateInstance().format(datePicker.selection)
+
+                if (hour.length < 2) hour = "0$hour"
+                if (minute.length < 2) minute = "0$minute"
+
+                dateFrom = "${SimpleDateFormat("yyyy-MM-dd").format(datePicker.selection)}T$hour:$minute:00Z"
+                dateLong = SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ss'Z'").parse(dateFrom).time
+
+                binding.dateDetailsEdit1.setText("$date $hour:$minute")
+            }
+        }
     }
 
     override fun onResume() {
@@ -99,6 +121,10 @@ class DetailsFragment : Fragment() {
         val cities = resources.getStringArray(R.array.city)
         val arrayAdapter3 = ArrayAdapter(requireContext(), R.layout.search_item, cities)
         binding.cityDetailsEdit1.setAdapter(arrayAdapter3)
+
+        val duration = resources.getStringArray(R.array.duration)
+        val arrayAdapter4 = ArrayAdapter(requireContext(), R.layout.search_item, duration)
+        binding.durationDetailsEdit1.setAdapter(arrayAdapter4)
     }
 
     override fun onDestroyView() {
@@ -133,7 +159,19 @@ class DetailsFragment : Fragment() {
                 priceDetails.text = data.price.toString()
 
                 //DATE
-                dateDetails.text = "${data.dateFrom} - ${data.dateTo}"
+                dateDetails.text = data.dateFrom
+
+                //DURATION
+                var duration = 0L
+                try {
+                    val dateTo = SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ss.sss'Z'").parse(data.dateTo).time
+                    val dateFrom = SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ss.sss'Z'").parse(data.dateFrom).time
+                    duration = dateTo - dateFrom
+
+                } catch (ex: NullPointerException) {
+                    Log.e("error", ex.message.toString())
+                }
+                durationDetails.text = "${(duration / 60000)} min"
 
                 //OWNER
                 ownerDetails.text = data.ownerId
