@@ -84,7 +84,7 @@
                             android:id="@+id/name_profile"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/name"
+                            tools:text="@string/name"
                             android:textSize="20sp"
                             android:textColor="@android:color/white"
                             app:layout_constraintBottom_toBottomOf="@+id/nameTextView"
@@ -107,8 +107,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:imeOptions="actionDone"
-                                android:inputType="text"
-                                android:text="@string/name" />
+                                android:inputType="text"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <!--                name-->
 
@@ -128,7 +127,7 @@
                             android:id="@+id/surname_profile"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/surname"
+                            tools:text="@string/surname"
                             android:textSize="20sp"
                             android:textColor="@android:color/white"
                             app:layout_constraintBottom_toBottomOf="@+id/surnameTextView"
@@ -151,8 +150,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:imeOptions="actionDone"
-                                android:inputType="text"
-                                android:text="@string/surname" />
+                                android:inputType="text"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <!--                surname-->
 
@@ -172,7 +170,7 @@
                             android:id="@+id/city_profile"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/city"
+                            tools:text="@string/city"
                             android:textSize="20sp"
                             android:textColor="@android:color/white"
                             app:layout_constraintBottom_toBottomOf="@+id/cityTextView"
@@ -195,8 +193,7 @@
                                 android:id="@+id/city_profile_edit1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="none"
-                                android:text="@string/city" />
+                                android:inputType="none"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <!--                city-->
 
@@ -216,7 +213,7 @@
                             android:id="@+id/email_profile"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/email"
+                            tools:text="@string/email"
                             android:textSize="20sp"
                             android:textColor="@android:color/white"
                             app:layout_constraintBottom_toBottomOf="@+id/emailTextView"
@@ -240,7 +237,7 @@
                             android:id="@+id/phone_profile"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/hint_number"
+                            tools:text="@string/hint_number"
                             android:textSize="20sp"
                             android:textColor="@android:color/white"
                             app:layout_constraintBottom_toBottomOf="@+id/phoneTextView"
@@ -263,10 +260,10 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:imeOptions="actionDone"
-                                android:inputType="number"
-                                android:text="@string/hint_number" />
+                                android:maxLength="9"
+                                android:inputType="phone"/>
                         </com.google.android.material.textfield.TextInputLayout>
-                        <!--                email-->
+                        <!--                phone-->
 
                         <TextView
                             android:id="@+id/birthdayTextView"
@@ -298,7 +295,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="@string/category_date"
+                            tools:text="@string/category_date"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/detail_category_text"
                             app:layout_constraintStart_toStartOf="@+id/guideline3"
@@ -321,7 +318,7 @@
                                 android:focusableInTouchMode="false"
                                 android:gravity="start|center"
                                 android:inputType="none"
-                                android:paddingHorizontal="5dp">
+                                android:paddingHorizontal="15dp">
 
                             </AutoCompleteTextView>
                         </com.google.android.material.textfield.TextInputLayout>
@@ -343,6 +340,26 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
                             android:text="@string/edit" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/profile_cancel"
+                            style="?attr/borderlessButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:enabled="true"
+                            android:visibility="gone"
+                            android:layout_marginEnd="8dp"
+                            android:text="@string/cancel" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/profile_save"
+                            style="?attr/borderlessButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:enabled="true"
+                            android:visibility="gone"
+                            android:layout_marginEnd="8dp"
+                            android:text="@string/save" />
 
                     </LinearLayout>
 

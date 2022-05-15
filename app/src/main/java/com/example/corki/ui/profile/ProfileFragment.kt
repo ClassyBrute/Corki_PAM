@@ -22,7 +22,11 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    private var texts = emptyList<TextView>()
+    private var menus = emptyList<TextInputLayout>()
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         val profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
 
@@ -34,30 +38,46 @@ class ProfileFragment : Fragment() {
             Toast.makeText(
                 requireContext(),
                 "User successfully logged out!",
-                Toast.LENGTH_SHORT)
+                Toast.LENGTH_SHORT
+            )
                 .show()
             findNavController().navigate(R.id.action_navigation_profile_to_fragment_login)
             (activity as MainActivity).bottomNavGone()
         }
 
+        with(binding) {
+            texts = listOf(nameProfile, surnameProfile, cityProfile, phoneProfile, birthdayProfile)
+            menus = listOf(
+                nameProfileEdit, surnameProfileEdit, cityProfileEdit, phoneProfileEdit,
+                birthdayProfileEdit
+            )
+        }
+
+        // TODO check if profile owner == loggedIn user
+        val loggedIn = true
+        if (!loggedIn) binding.profileEdit.visibility = View.GONE
+
         binding.profileEdit.setOnClickListener {
-            val texts: List<TextView>
-            val menus: List<TextInputLayout>
+            toggleEdit(true)
 
-            with (binding) {
-                texts = listOf(nameProfile, surnameProfile, cityProfile, phoneProfile, birthdayProfile)
-                menus = listOf(nameProfileEdit, surnameProfileEdit, cityProfileEdit,
-                    phoneProfileEdit, birthdayProfileEdit)
-            }
-
-            if (binding.nameProfileEdit.visibility == View.VISIBLE) {
-                menus.forEach { it.visibility = View.GONE }
-                texts.forEach { it.visibility = View.VISIBLE }
-            } else {
-                menus.forEach { it.visibility = View.VISIBLE }
-                texts.forEach { it.visibility = View.GONE }
+            with(binding) {
+                // populate fields when editing
+                nameProfileEdit1.setText(nameProfile.text)
+                surnameProfileEdit1.setText(surnameProfile.text)
+                cityProfileEdit1.setText(cityProfile.text)
+                phoneProfileEdit1.setText(phoneProfile.text)
+                birthdayProfileEdit1.setText(birthdayProfile.text)
+                populateMenus()
             }
         }
+
+        // TODO send edited fields to api
+        binding.profileSave.setOnClickListener {
+            toggleEdit(false)
+        }
+
+        // don't send anything to api
+        binding.profileCancel.setOnClickListener { toggleEdit(false) }
 
         binding.birthdayProfileEdit1.setText(DateFormat.getDateInstance().format(Date()))
 
@@ -71,16 +91,46 @@ class ProfileFragment : Fragment() {
             datePicker.show(parentFragmentManager, "MATERIAL_DATE_PICKER")
 
             datePicker.addOnPositiveButtonClickListener {
-                binding.birthdayProfileEdit1.setText(DateFormat.getDateInstance().format(datePicker.selection))
+                binding.birthdayProfileEdit1.setText(
+                    DateFormat.getDateInstance().format(datePicker.selection)
+                )
             }
         }
 
         return root
     }
 
+    private fun toggleEdit(edit: Boolean) {
+        when (edit) {
+            true -> {
+                menus.forEach { it.visibility = View.VISIBLE }
+                texts.forEach { it.visibility = View.GONE }
+
+                with(binding) {
+                    profileSave.visibility = View.VISIBLE
+                    profileCancel.visibility = View.VISIBLE
+                    profileEdit.visibility = View.GONE
+                }
+            }
+            false -> {
+                menus.forEach { it.visibility = View.GONE }
+                texts.forEach { it.visibility = View.VISIBLE }
+
+                with(binding) {
+                    profileSave.visibility = View.GONE
+                    profileCancel.visibility = View.GONE
+                    profileEdit.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
+        populateMenus()
+    }
 
+    private fun populateMenus() {
         val cities = resources.getStringArray(R.array.city)
         val arrayAdapter3 = ArrayAdapter(requireContext(), R.layout.search_item, cities)
         binding.cityProfileEdit1.setAdapter(arrayAdapter3)

@@ -193,7 +193,7 @@
                         android:focusableInTouchMode="false"
                         android:gravity="start|center"
                         android:inputType="none"
-                        android:paddingHorizontal="5dp">
+                        android:paddingHorizontal="15dp">
 
                     </AutoCompleteTextView>
                 </com.google.android.material.textfield.TextInputLayout>

@@ -99,4 +99,7 @@
     <string name="register_password">Password</string>
     <string name="password">Password:</string>
     <string name="license_agreement">I accept the license and terms</string>
+    <string name="invalid_time">Wrong time format</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 </resources>

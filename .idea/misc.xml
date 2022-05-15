@@ -4,15 +4,15 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/card_item.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/fragment_create.xml" value="0.8" />
+        <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/card_item.xml" value="0.8402777777777778" />
+        <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/fragment_create.xml" value="0.9" />
         <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/fragment_dashboard.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/fragment_details.xml" value="0.8768115942028986" />
+        <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/fragment_details.xml" value="0.8693586698337292" />
         <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/fragment_login.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/fragment_my_offers.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/fragment_notifications.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
+        <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/fragment_profile.xml" value="0.75" />
         <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/fragment_register.xml" value="0.7894736842105263" />
         <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/fragment_search.xml" value="0.33" />
         <entry key="..\:/Users/315696/AndroidStudioProjects/Corki/app/src/main/res/layout/search_item.xml" value="0.36666666666666664" />

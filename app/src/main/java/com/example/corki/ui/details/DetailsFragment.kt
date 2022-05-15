@@ -1,19 +1,17 @@
 package com.example.corki.ui.details
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.corki.R
-import com.example.corki.adapters.PostsAdapter
 import com.example.corki.databinding.FragmentDetailsBinding
-import com.example.corki.models.post.Post
 import com.example.corki.viewmodel.PostViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputLayout
@@ -29,13 +27,18 @@ class DetailsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var dateFrom = ""
-    private var dateTo = ""
-    private var dateLong = 0L
+    private var dateLong: Long? = 0L
+
+    private val format = "yyyy-MM-dd'T'kk:mm:ss.sss'Z'"
+
+    private var texts = emptyList<TextView>()
+    private var menus = emptyList<TextInputLayout>()
 
     //POST
     private lateinit var postViewModel: PostViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         val detailsViewModel = ViewModelProvider(this).get(DetailsViewModel::class.java)
 
@@ -46,33 +49,81 @@ class DetailsFragment : Fragment() {
         postViewModel.postViewModel()
         observePostViewModel(arguments?.getString("id")!!)
 
+        with(binding) {
+            texts = listOf(
+                titleCard, subjectDetails, cityDetails, priceDetails,
+                dateDetails, durationDetails
+            )
+            menus = listOf(
+                titleCardEdit, subjectDetailsEdit, dateDetailsEdit,
+                cityDetailsEdit, levelDetailsEdit, priceDetailsEdit, durationDetailsEdit
+            )
+        }
+
+        // TODO check if post author == loggedIn user
+        val loggedIn = true
+        if (!loggedIn) binding.detailsEdit.visibility = View.GONE
+        else binding.detailsRegister.visibility = View.GONE
+
         binding.detailsEdit.setOnClickListener {
-            val texts: List<TextView>
-            val menus: List<TextInputLayout>
+            toggleEdit(true)
 
-            with (binding) {
-                texts = listOf(titleCard, subjectDetails, cityDetails, priceDetails,
-                    dateDetails, durationDetails)
-                menus = listOf(titleCardEdit, subjectDetailsEdit, dateDetailsEdit,
-                    cityDetailsEdit, levelDetailsEdit, priceDetailsEdit, durationDetailsEdit)
-            }
-
-            if (binding.subjectDetailsEdit.visibility == View.VISIBLE) {
-                menus.forEach { it.visibility = View.GONE }
-                texts.forEach { it.visibility = View.VISIBLE }
-            } else {
-                menus.forEach { it.visibility = View.VISIBLE }
-                texts.forEach { it.visibility = View.GONE }
+            with(binding) {
+                // populate fields when editing
+                titleCardEdit1.setText(titleCard.text)
+                subjectDetailsEdit1.setText(subjectDetails.text)
+                cityDetailsEdit1.setText(cityDetails.text)
+                levelDetailsEdit1.setText(levelDetails.text)
+                priceDetailsEdit1.setText(priceDetails.text.dropLast(2))
+                durationDetailsEdit1.setText(durationDetails.text.dropLast(3))
+                dateDetailsEdit1.setText(dateDetails.text)
+                populateMenus()
             }
         }
+
+        // TODO send edited fields to api
+        binding.detailsSave.setOnClickListener {
+            toggleEdit(false)
+        }
+
+        // don't send anything to api
+        binding.detailsCancel.setOnClickListener { toggleEdit(false) }
 
         binding.dateDetailsEdit1.setText(DateFormat.getDateInstance().format(Date()))
 
         binding.dateDetailsEdit1.setOnClickListener { showDatePicker() }
 
+        binding.backButton.setOnClickListener { findNavController().popBackStack() }
+
         return root
     }
 
+    private fun toggleEdit(edit: Boolean) {
+        when (edit) {
+            true -> {
+                menus.forEach { it.visibility = View.VISIBLE }
+                texts.forEach { it.visibility = View.GONE }
+
+                with(binding) {
+                    detailsSave.visibility = View.VISIBLE
+                    detailsCancel.visibility = View.VISIBLE
+                    detailsEdit.visibility = View.GONE
+                }
+            }
+            false -> {
+                menus.forEach { it.visibility = View.GONE }
+                texts.forEach { it.visibility = View.VISIBLE }
+
+                with(binding) {
+                    detailsSave.visibility = View.GONE
+                    detailsCancel.visibility = View.GONE
+                    detailsEdit.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
+    @SuppressLint("SimpleDateFormat", "SetTextI18n")
     private fun showDatePicker() {
         val datePicker: MaterialDatePicker<Long> = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Select date")
@@ -100,8 +151,9 @@ class DetailsFragment : Fragment() {
                 if (hour.length < 2) hour = "0$hour"
                 if (minute.length < 2) minute = "0$minute"
 
-                dateFrom = "${SimpleDateFormat("yyyy-MM-dd").format(datePicker.selection)}T$hour:$minute:00Z"
-                dateLong = SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ss'Z'").parse(dateFrom).time
+                dateFrom =
+                    "${SimpleDateFormat("yyyy-MM-dd").format(datePicker.selection)}T$hour:$minute:00Z"
+                dateLong = SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ss'Z'").parse(dateFrom)?.time
 
                 binding.dateDetailsEdit1.setText("$date $hour:$minute")
             }
@@ -110,6 +162,10 @@ class DetailsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        populateMenus()
+    }
+
+    private fun populateMenus() {
         val subjects = resources.getStringArray(R.array.subjects)
         val arrayAdapter1 = ArrayAdapter(requireContext(), R.layout.search_item, subjects)
         binding.subjectDetailsEdit1.setAdapter(arrayAdapter1)
@@ -132,46 +188,41 @@ class DetailsFragment : Fragment() {
         _binding = null
     }
 
+    @SuppressLint("SetTextI18n", "SimpleDateFormat")
     private fun observePostViewModel(id: String) {
         postViewModel.getPost(id).observe(viewLifecycleOwner) { data ->
             with(binding) {
-                var tempString = ""
-
-                //TITLE
                 titleCard.text = data.title
-
-                //SUBJECTS
-                data.subjects.forEach { tempString += "$it, "}
-                subjectDetails.text = tempString
-                tempString = ""
-
-                //CITIES
-                data.cities.forEach { tempString += "$it, "}
-                cityDetails.text = tempString
-                tempString = ""
-
-                //LEVEL
-                data.level.forEach { tempString += "$it, "}
-                levelDetails.text = tempString
-                tempString = ""
-
-                //PRICE
-                priceDetails.text = data.price.toString()
-
-                //DATE
-                dateDetails.text = data.dateFrom
-
-                //DURATION
-                var duration = 0L
-                try {
-                    val dateTo = SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ss.sss'Z'").parse(data.dateTo).time
-                    val dateFrom = SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ss.sss'Z'").parse(data.dateFrom).time
-                    duration = dateTo - dateFrom
-
-                } catch (ex: NullPointerException) {
-                    Log.e("error", ex.message.toString())
+                subjectDetails.text = data.subjects[0].replaceFirst(
+                    oldChar = data.subjects[0][0],
+                    newChar = data.subjects[0][0].uppercase().toCharArray()[0]
+                )
+                cityDetails.text = data.cities[0]
+                levelDetails.text = when (data.level[0][0]) {
+                    'p' -> "Primary School"
+                    'm' -> "Middle School"
+                    'h' -> "High School"
+                    'u' -> "University"
+                    else -> {
+                        "unknown"
+                    }
                 }
-                durationDetails.text = "${(duration / 60000)} min"
+
+                priceDetails.text = "${data.price}zł"
+
+                dateDetails.text = SimpleDateFormat(format).parse(data.dateFrom)?.let {
+                    DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT).format(it)
+                }
+
+                try {
+                    val dateTo = SimpleDateFormat(format).parse(data.dateTo)?.time
+                    val dateFrom = SimpleDateFormat(format).parse(data.dateFrom)?.time
+                    val duration = dateFrom?.let { dateTo?.minus(it) }
+
+                    if (duration != null) durationDetails.text = "${duration / 60000} min"
+                } catch (ex: NullPointerException) {
+                    durationDetails.text = context?.getString(R.string.invalid_time)
+                }
 
                 //OWNER
                 ownerDetails.text = data.ownerId
