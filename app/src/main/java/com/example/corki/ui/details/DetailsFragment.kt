@@ -39,8 +39,6 @@ class DetailsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val detailsViewModel = ViewModelProvider(this).get(DetailsViewModel::class.java)
-
         _binding = FragmentDetailsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
