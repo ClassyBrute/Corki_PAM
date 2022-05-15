@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.corki.MainActivity
 import com.example.corki.R
 import com.example.corki.databinding.FragmentProfileBinding
+import com.example.corki.viewmodel.AccountViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputLayout
 import java.text.DateFormat
@@ -25,22 +26,29 @@ class ProfileFragment : Fragment() {
     private var texts = emptyList<TextView>()
     private var menus = emptyList<TextInputLayout>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    private lateinit var accountViewModel: AccountViewModel
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
 
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        accountViewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
+        accountViewModel.accountViewModel()
+        observeAccountViewModel()
+
         binding.logoutButton.setOnClickListener {
-            // TODO logout user
+
+            (activity as MainActivity).clearJWT()
+
             Toast.makeText(
                 requireContext(),
                 "User successfully logged out!",
                 Toast.LENGTH_SHORT
             )
                 .show()
+
             findNavController().navigate(R.id.action_navigation_profile_to_fragment_login)
             (activity as MainActivity).bottomNavGone()
         }
@@ -121,6 +129,20 @@ class ProfileFragment : Fragment() {
                     profileCancel.visibility = View.GONE
                     profileEdit.visibility = View.VISIBLE
                 }
+            }
+        }
+    }
+
+    private fun observeAccountViewModel() {
+        accountViewModel.getProfile((activity as MainActivity).getJWT()).observe(viewLifecycleOwner) { data ->
+            with(binding) {
+                profileTitleTextView.text = "${data.firstName}'s profile"
+                nameProfile.text = data.firstName
+                surnameProfile.text = data.lastName
+                cityProfile.text = data.address
+                emailProfile.text = data.email //data.accountName
+                phoneProfile.text = data.phoneNumber
+                birthdayProfile.text = data.birthday
             }
         }
     }

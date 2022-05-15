@@ -31,8 +31,6 @@ class RegisterFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
-        val registerViewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
-
         accountViewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
         accountViewModel.accountViewModel()
         observeAccountViewModel()
@@ -75,6 +73,7 @@ class RegisterFragment : Fragment() {
             JWT = data
             when(JWT.isEmpty()) {
                 false -> {
+                    (activity as MainActivity).putJWT(JWT)
                     findNavController().navigate(R.id.action_fragment_register_to_navigation_search)
                     (activity as MainActivity).bottomNavVisible()
                 }

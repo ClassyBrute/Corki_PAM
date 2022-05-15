@@ -1,5 +1,6 @@
 package com.example.corki
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initPreferences()
 
         val navView: BottomNavigationView = binding.navView
 
@@ -45,4 +47,26 @@ class MainActivity : AppCompatActivity() {
     fun bottomNavGone() {
         binding.navView.visibility = View.GONE
     }
+
+    //JWT
+    private val preferencesFileName = "com.example.corki"
+    private val TOKEN_KEY = "TOKEN"
+    private lateinit var preferences: SharedPreferences
+
+    private fun initPreferences() {
+        preferences = getSharedPreferences(preferencesFileName, MODE_PRIVATE)
+    }
+
+    fun getJWT(): String {
+        return preferences.getString("TOKEN", "")!!
+    }
+
+    fun clearJWT() {
+        preferences.edit().clear().apply()
+    }
+
+    fun putJWT(token: String) {
+        preferences.edit().putString(TOKEN_KEY, token).apply()
+    }
+
 }

@@ -12,26 +12,15 @@ import com.example.corki.databinding.FragmentMyOffersBinding
 class MyOffersFragment : Fragment() {
 
     private var _binding: FragmentMyOffersBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val myOffersViewModel =
-                ViewModelProvider(this).get(MyOffersViewModel::class.java)
 
         _binding = FragmentMyOffersBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textMyOffers
-        myOffersViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        binding.textMyOffers.text = "This is MyOffers Fragment"
         return root
     }
 
