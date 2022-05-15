@@ -75,6 +75,7 @@ class RegisterFragment : Fragment() {
             JWT = data
             when(JWT.isEmpty()) {
                 false -> {
+                    (activity as MainActivity).putJWT(JWT)
                     findNavController().navigate(R.id.action_fragment_register_to_navigation_search)
                     (activity as MainActivity).bottomNavVisible()
                 }

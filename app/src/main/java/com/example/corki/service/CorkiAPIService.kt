@@ -1,5 +1,6 @@
 package com.example.corki.service
 
+import com.example.corki.models.account.Account
 import com.example.corki.models.post.Post
 import com.example.corki.models.post.Posts
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
@@ -33,5 +34,13 @@ class CorkiAPIService {
 
     fun postRegisterData(map: Map<String, String>): Single<String> {
         return api.postRegister(map)
+    }
+
+    fun getLoggedUserData(token: String): Single<Account> {
+        return api.getLoggedUser(token)
+    }
+
+    fun getAccountData(id: String): Single<Account> {
+        return api.getAccount(id)
     }
 }

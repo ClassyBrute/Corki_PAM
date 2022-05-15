@@ -7,13 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.corki.R
-import com.example.corki.adapters.PostsAdapter
 import com.example.corki.databinding.FragmentDetailsBinding
-import com.example.corki.models.post.Post
+import com.example.corki.viewmodel.AccountViewModel
 import com.example.corki.viewmodel.PostViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputLayout
@@ -35,6 +33,10 @@ class DetailsFragment : Fragment() {
     //POST
     private lateinit var postViewModel: PostViewModel
 
+    //ACCOUNT
+    private lateinit var accountViewModel: AccountViewModel
+    private var ownerId = ""
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         val detailsViewModel = ViewModelProvider(this).get(DetailsViewModel::class.java)
@@ -42,9 +44,15 @@ class DetailsFragment : Fragment() {
         _binding = FragmentDetailsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        //POST
         postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
         postViewModel.postViewModel()
         observePostViewModel(arguments?.getString("id")!!)
+
+        //ACCOUNT
+        accountViewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
+        accountViewModel.accountViewModel()
+        observeAccountViewModel()
 
         binding.detailsEdit.setOnClickListener {
             val texts: List<TextView>
@@ -174,8 +182,16 @@ class DetailsFragment : Fragment() {
                 durationDetails.text = "${(duration / 60000)} min"
 
                 //OWNER
-                ownerDetails.text = data.ownerId
+                ownerId = data.ownerId
+                accountViewModel.getAccount(ownerId)
+                //ownerDetails.text = data.ownerId
             }
+        }
+    }
+
+    private fun observeAccountViewModel() {
+        accountViewModel.getAccount(ownerId).observe(viewLifecycleOwner) { data ->
+            binding.ownerDetails.text = "${data.firstName} ${data.lastName}"
         }
     }
 }

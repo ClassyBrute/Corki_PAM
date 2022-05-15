@@ -1,5 +1,6 @@
 package com.example.corki.service
 
+import com.example.corki.models.account.Account
 import com.example.corki.models.post.Post
 import com.example.corki.models.post.Posts
 import io.reactivex.rxjava3.core.Single
@@ -19,4 +20,10 @@ interface CorkiAPI {
 
     @POST("register")
     fun postRegister(@Body map: Map<String, String>): Single<String>
+
+    @GET("profile")
+    fun getLoggedUser(@Header("Authorization") token: String): Single<Account>
+
+    @GET("account/{id}")
+    fun getAccount(@Path("id") id: String): Single<Account>
 }
