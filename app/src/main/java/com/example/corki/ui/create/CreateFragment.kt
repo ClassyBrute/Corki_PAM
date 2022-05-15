@@ -6,10 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.core.text.parseAsHtml
-import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.corki.R
 import com.example.corki.databinding.FragmentCreateBinding
 import com.example.corki.models.post.Post
@@ -18,11 +15,9 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import org.json.JSONObject
-import java.sql.Time
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.time.Duration.Companion.milliseconds
 
 class CreateFragment : Fragment() {
 
@@ -38,7 +33,6 @@ class CreateFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val createViewModel = ViewModelProvider(this).get(CreateViewModel::class.java)
 
         _binding = FragmentCreateBinding.inflate(inflater, container, false)
         val root: View = binding.root
