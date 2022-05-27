@@ -14,6 +14,9 @@ interface CorkiAPI {
     @GET("posts")
     fun getPostsWithQuery(@QueryMap(encoded=true) map: Map<String, String>): Single<Posts>
 
+    @POST("posts")
+    fun postPost(@Body map: Map<String, String>, @Header("Authorization") token: String): Single<String>
+
     //ACCOUNT
     @POST("login")
     fun postLogin(@Body map: Map<String, String>): Single<String>

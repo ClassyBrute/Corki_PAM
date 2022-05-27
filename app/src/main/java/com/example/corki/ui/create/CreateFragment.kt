@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.example.corki.MainActivity
 import com.example.corki.R
 import com.example.corki.databinding.FragmentCreateBinding
-import com.example.corki.models.post.Post
 import com.example.corki.viewmodel.PostViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
-import org.json.JSONObject
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -29,7 +29,8 @@ class CreateFragment : Fragment() {
     private var dateLong = 0L
 
     private lateinit var postViewModel: PostViewModel
-    private var postsList = emptyList<Post>()
+    private var map = mutableMapOf<String, String>()
+    private var canBeSent = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -42,7 +43,64 @@ class CreateFragment : Fragment() {
         binding.dateDetailsEdit1.hint = DateFormat.getDateInstance().format(Date())
         binding.dateDetailsEdit1.setOnClickListener { showDatePicker() }
 
+        postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
+        postViewModel.postViewModel()
+        observePostViewModel()
+
         return root
+    }
+
+    private fun observePostViewModel() {
+        postViewModel.postIdGetter().observe(viewLifecycleOwner) { data ->
+            if(data.isNotEmpty()) {
+                //val bundle = bundleOf("id" to data)
+                //findNavController().navigate(R.id.action_fragment_create_to_fragment_details, bundle)
+                Toast.makeText(context, "Post created!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Post could not be created!", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun createOffer() {
+        map = mutableMapOf<String, String>()
+        canBeSent = true
+
+        if (!binding.titleCardEdit1.text.isNullOrEmpty()) {
+            map["title"] = binding.titleCardEdit1.text.toString()
+        } else { canBeSent = false }
+
+        if (!binding.subjectDetailsEdit1.text.isNullOrEmpty()) {
+            map["subjects"] = binding.subjectDetailsEdit1.text.toString().lowercase()
+        } else { canBeSent = false }
+
+        if (!binding.cityDetailsEdit1.text.isNullOrEmpty()) {
+            map["cities"] = binding.cityDetailsEdit1.text.toString()
+        } else { canBeSent = false }
+
+        if (!binding.levelDetailsEdit1.text.isNullOrEmpty()) {
+            map["level"] = binding.levelDetailsEdit1.text.toString().lowercase()
+        } else { canBeSent = false }
+
+        if (!binding.priceDetailsEdit1.text.isNullOrEmpty()) {
+            map["price"] = binding.priceDetailsEdit1.text.toString()
+        } else { canBeSent = false }
+
+        if (!binding.dateDetailsEdit1.text.isNullOrEmpty()) {
+            map["dateFrom"] = dateFrom
+        } else { canBeSent = false }
+
+        if (!binding.durationDetailsEdit1.text.isNullOrEmpty()) {
+            val tempDate = dateLong + binding.durationDetailsEdit1.text.toString().toInt() * 60000
+            dateTo = SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ss'Z'").format(tempDate)
+            map["dateTo"] = dateTo
+        } else { canBeSent = false }
+
+        if(canBeSent) {
+            postViewModel.postPost(map, (activity as MainActivity).getJWT())
+        } else {
+            Toast.makeText(context, "You're missing something!", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun showDatePicker() {
@@ -78,36 +136,6 @@ class CreateFragment : Fragment() {
                 binding.dateDetailsEdit1.setText("$date $hour:$minute")
             }
         }
-    }
-
-    private fun createOffer() {
-        val json = JSONObject()
-
-        if (!binding.titleCardEdit1.text.isNullOrEmpty()) {
-            json.put("title", binding.titleCardEdit1.text)
-        }
-        if (!binding.subjectDetailsEdit1.text.isNullOrEmpty()) {
-            json.put("subject", binding.subjectDetailsEdit1.text)
-        }
-        if (!binding.cityDetailsEdit1.text.isNullOrEmpty()) {
-            json.put("city", binding.cityDetailsEdit1.text)
-        }
-        if (!binding.levelDetailsEdit1.text.isNullOrEmpty()) {
-            json.put("level", binding.levelDetailsEdit1.text)
-        }
-        if (!binding.priceDetailsEdit1.text.isNullOrEmpty()) {
-            json.put("price", binding.priceDetailsEdit1.text)
-        }
-        if (!binding.dateDetailsEdit1.text.isNullOrEmpty()) {
-            json.put("dateFrom", dateFrom)
-        }
-        if (!binding.durationDetailsEdit1.text.isNullOrEmpty()) {
-            val tempDate = dateLong + binding.durationDetailsEdit1.text.toString().toInt() * 60000
-            dateTo = SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ss'Z'").format(tempDate)
-            json.put("dateTo", dateTo)
-        }
-
-        Toast.makeText(context, json.toString(), Toast.LENGTH_LONG).show()
     }
 
     override fun onResume() {

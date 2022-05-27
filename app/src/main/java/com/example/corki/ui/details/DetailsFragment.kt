@@ -53,7 +53,6 @@ class DetailsFragment : Fragment() {
 
         accountViewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
         accountViewModel.accountViewModel()
-        observeAccountViewModel()
 
         with(binding) {
             texts = listOf(
@@ -233,7 +232,11 @@ class DetailsFragment : Fragment() {
                 }
 
                 ownerId = data.ownerId
-                accountViewModel.getAccount(ownerId)
+                if(accountViewModel.getAccount(ownerId).hasActiveObservers()) {
+                    accountViewModel.getAccount(ownerId)
+                } else {
+                    observeAccountViewModel()
+                }
             }
         }
     }

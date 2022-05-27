@@ -16,7 +16,7 @@ class AccountViewModel : ViewModel() {
     private lateinit var dispose : Disposable
     var loggedAccount = MutableLiveData<Account>()
     var account = MutableLiveData<Account>()
-    var accountToken = MutableLiveData<String>()
+    private var accountToken = MutableLiveData<String>()
 
     var tokenError = MutableLiveData<Boolean>()
     var accountError = MutableLiveData<Boolean>()
@@ -38,6 +38,7 @@ class AccountViewModel : ViewModel() {
                             tokenError.value = false
                         }
                         override fun onError(e: Throwable) {
+                            accountToken.value = ""
                             tokenError.value = true
                             Log.e("token_register", e.toString())
                         }
@@ -54,6 +55,7 @@ class AccountViewModel : ViewModel() {
                             tokenError.value = false
                         }
                         override fun onError(e: Throwable) {
+                            accountToken.value = ""
                             tokenError.value = true
                             Log.e("token_login", e.toString())
                         }
@@ -102,6 +104,12 @@ class AccountViewModel : ViewModel() {
         dispose.dispose()
     }
 
+    //GETTER
+    fun tokenGetter() : LiveData<String> {
+        return accountToken
+    }
+
+    //FETCH
     fun postLogin(map: Map<String, String>) : LiveData<String> {
         fetchAccountToken(map, "LOGIN")
         return accountToken
@@ -122,8 +130,8 @@ class AccountViewModel : ViewModel() {
         return account
     }
 
-
-//    fun getTokenError() : LiveData<Boolean> {
-//        return tokenError
-//    }
+    //ERROR
+    fun getTokenError() : LiveData<Boolean> {
+        return tokenError
+    }
 }

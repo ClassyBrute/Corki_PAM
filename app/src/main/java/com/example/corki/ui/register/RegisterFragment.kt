@@ -24,16 +24,11 @@ class RegisterFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var registerMap = mutableMapOf<String, String>()
-    private var JWT = ""
     private lateinit var accountViewModel: AccountViewModel
     private var birthdayLong: Long? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-
-        accountViewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
-        accountViewModel.accountViewModel()
-        observeAccountViewModel()
 
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -41,25 +36,12 @@ class RegisterFragment : Fragment() {
         binding.birthdayRegisterEdit1.hint = DateFormat.getDateInstance().format(Date())
         binding.birthdayRegisterEdit1.setOnClickListener { showDatePicker() }
 
+        accountViewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
+        accountViewModel.accountViewModel()
+        observeToken()
+
         binding.buttonRegister.setOnClickListener {
-            registerMap = mutableMapOf<String, String>()
-            if(!binding.emailRegisterEdit1.text.isNullOrEmpty()) {
-                registerMap["accountName"] = binding.emailRegisterEdit1.text.toString()
-                registerMap["email"] = binding.emailRegisterEdit1.text.toString()
-            }
-            if(!binding.passwordRegisterEdit1.text.isNullOrEmpty()) {
-                registerMap["password"] = binding.passwordRegisterEdit1.text.toString()
-            }
-            if(!binding.nameRegisterEdit1.text.isNullOrEmpty()) {
-                registerMap["firstName"] = binding.nameRegisterEdit1.text.toString()
-            }
-            if(!binding.surnameRegisterEdit1.text.isNullOrEmpty()) {
-                registerMap["lastName"] = binding.surnameRegisterEdit1.text.toString()
-            }
-            if(birthdayLong != null) {
-               registerMap["birthday"] = SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ss'Z'").format(birthdayLong)
-            }
-            accountViewModel.postRegister(registerMap)
+            initiateRegister()
         }
 
         // TODO CHECK USER INPUTS
@@ -68,20 +50,41 @@ class RegisterFragment : Fragment() {
         return root
     }
 
-    private fun observeAccountViewModel() {
-        accountViewModel.postRegister(registerMap).observe(viewLifecycleOwner) { data ->
-            JWT = data
-            when(JWT.isEmpty()) {
+    private fun observeToken() {
+        accountViewModel.tokenGetter().observe(viewLifecycleOwner) { data ->
+            when(data.isEmpty()) {
                 false -> {
-                    (activity as MainActivity).putJWT(JWT)
+                    (activity as MainActivity).putJWT(data)
                     findNavController().navigate(R.id.action_fragment_register_to_navigation_search)
                     (activity as MainActivity).bottomNavVisible()
+                    Toast.makeText(context, "Account created.", Toast.LENGTH_SHORT).show()
                 }
                 else -> {
-                    Toast.makeText(context, "Account could not be created.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "Account could not be created.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
+    }
+
+    private fun initiateRegister() {
+        registerMap = mutableMapOf<String, String>()
+        if(!binding.emailRegisterEdit1.text.isNullOrEmpty()) {
+            registerMap["accountName"] = binding.emailRegisterEdit1.text.toString()
+            registerMap["email"] = binding.emailRegisterEdit1.text.toString()
+        }
+        if(!binding.passwordRegisterEdit1.text.isNullOrEmpty()) {
+            registerMap["password"] = binding.passwordRegisterEdit1.text.toString()
+        }
+        if(!binding.nameRegisterEdit1.text.isNullOrEmpty()) {
+            registerMap["firstName"] = binding.nameRegisterEdit1.text.toString()
+        }
+        if(!binding.surnameRegisterEdit1.text.isNullOrEmpty()) {
+            registerMap["lastName"] = binding.surnameRegisterEdit1.text.toString()
+        }
+        if(birthdayLong != null) {
+            registerMap["birthday"] = SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ss'Z'").format(birthdayLong)
+        }
+        accountViewModel.postRegister(registerMap)
     }
 
     private fun showDatePicker() {

@@ -31,11 +31,8 @@ class SearchFragment : Fragment() {
     private var firstJson: String = ""
     private var secondJson: String = ""
 
-    //POSTS
     private lateinit var postViewModel: PostViewModel
     private var postsList = emptyList<Post>()
-
-    //FILTERS
     private var map = mutableMapOf<String, String>()
 
     override fun onCreateView(

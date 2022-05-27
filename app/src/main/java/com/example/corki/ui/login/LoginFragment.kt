@@ -20,7 +20,6 @@ class LoginFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var loginMap = mutableMapOf<String, String>()
-    private var JWT = ""
     private lateinit var accountViewModel: AccountViewModel
 
     override fun onCreateView(
@@ -35,15 +34,10 @@ class LoginFragment : Fragment() {
 
         accountViewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
         accountViewModel.accountViewModel()
-        observeAccountViewModel()
+        observeToken()
 
         binding.login.setOnClickListener {
-            loginMap = mutableMapOf<String, String>()
-            loginMap["accountName"] = binding.username.text.toString()
-            loginMap["password"] = binding.password.text.toString()
-            accountViewModel.postLogin(loginMap)
-
-            //binding.loading.visibility = View.VISIBLE
+            initiateLogin()
         }
 
         binding.registerButton.setOnClickListener {
@@ -51,23 +45,27 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun observeAccountViewModel() {
-        accountViewModel.postLogin(loginMap).observe(viewLifecycleOwner) { data ->
-            JWT = data
-            when(JWT.isEmpty()) {
+    private fun observeToken() {
+        accountViewModel.tokenGetter().observe(viewLifecycleOwner) { data ->
+            when(data.isEmpty()) {
                 false -> {
-                    (activity as MainActivity).putJWT(JWT)
+                    (activity as MainActivity).putJWT(data)
                     findNavController().navigate(R.id.action_fragment_login_to_navigation_search)
                     (activity as MainActivity).bottomNavVisible()
+                    Toast.makeText(context, "Logged in.", Toast.LENGTH_SHORT).show()
                 }
                 else -> {
-                    Toast.makeText(context, "Incorrect login or password.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "Incorrect login or password.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
-//        accountViewModel.getTokenError().observe(viewLifecycleOwner) { data ->
-//            tokenNotFound = data
-//        }
+    }
+
+    private fun initiateLogin() {
+        loginMap = mutableMapOf<String, String>()
+        loginMap["accountName"] = binding.username.text.toString()
+        loginMap["password"] = binding.password.text.toString()
+        accountViewModel.postLogin(loginMap)
     }
 
     override fun onDestroyView() {

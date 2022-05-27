@@ -16,6 +16,7 @@ class PostViewModel : ViewModel() {
     private lateinit var service : CorkiAPIService
     private lateinit var dispose : Disposable
     var postData = MutableLiveData<Post>()
+    var postId = MutableLiveData<String>()
     var postsData = MutableLiveData<Posts>()
     var postError = MutableLiveData<Boolean>()
 
@@ -35,7 +36,7 @@ class PostViewModel : ViewModel() {
 
                 override fun onError(e: Throwable) {
                     postError.value = true
-                    Log.e("post_query", e.toString())
+                    Log.e("post_get_with_query", e.toString())
                 }
             })
     }
@@ -52,9 +53,35 @@ class PostViewModel : ViewModel() {
 
                 override fun onError(e: Throwable) {
                     postError.value = true
-                    Log.e("post", e.toString())
+                    Log.e("post_get", e.toString())
                 }
             })
+    }
+
+    private fun sendPost(map: Map<String, String>, token: String) {
+        dispose = service.postPostData(map, token)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object: DisposableSingleObserver<String>(){
+                override fun onSuccess(t: String) {
+                    postId.value = t
+                    postError.value = false
+                }
+
+                override fun onError(e: Throwable) {
+                    postError.value = true
+                    Log.e("post_post", e.toString())
+                }
+            })
+    }
+
+    //GETTER
+    fun postGetter() : LiveData<Post> {
+        return postData
+    }
+
+    fun postIdGetter() : LiveData<String> {
+        return postId
     }
 
     fun onDispose() {
@@ -69,6 +96,11 @@ class PostViewModel : ViewModel() {
     fun getPost(id: String) : LiveData<Post> {
         fetchPost(id)
         return postData
+    }
+
+    fun postPost(map: Map<String, String>, token: String): LiveData<String> {
+        sendPost(map, "Bearer $token")
+        return postId
     }
 
     fun getPostsError() : LiveData<Boolean> {

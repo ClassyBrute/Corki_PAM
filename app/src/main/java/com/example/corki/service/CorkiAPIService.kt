@@ -27,6 +27,10 @@ class CorkiAPIService {
         return api.getPost(id)
     }
 
+    fun postPostData(map: Map<String, String>, token: String): Single<String> {
+        return api.postPost(map, token)
+    }
+
     //ACCOUNT
     fun postLoginData(map: Map<String, String>): Single<String> {
         return api.postLogin(map)

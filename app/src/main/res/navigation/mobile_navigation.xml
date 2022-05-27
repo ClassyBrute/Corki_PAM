@@ -55,7 +55,15 @@
         android:id="@+id/navigation_create"
         android:name="com.example.corki.ui.create.CreateFragment"
         android:label="@string/title_create"
-        tools:layout="@layout/fragment_create" />
+        tools:layout="@layout/fragment_create">
+        <action
+            android:id="@+id/action_fragment_create_to_fragment_details"
+            app:destination="@+id/fragment_details" />
+        <argument
+            android:name="post_id"
+            app:argType="string" />
+    </fragment>
+
 
     <fragment
         android:id="@+id/navigation_my_offers"
@@ -70,7 +78,7 @@
         tools:layout="@layout/fragment_profile" >
         <action
             android:id="@+id/action_navigation_profile_to_fragment_login"
-            app:popUpTo="@id/navigation_search"
+            app:popUpTo="@id/mobile_navigation"
             app:popUpToInclusive="true"
             app:destination="@id/fragment_login" />
     </fragment>
