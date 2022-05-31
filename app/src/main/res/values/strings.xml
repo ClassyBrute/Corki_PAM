@@ -100,6 +100,10 @@
     <string name="password">Password:</string>
     <string name="license_agreement">I accept the license and terms</string>
     <string name="invalid_time">Wrong time format</string>
+    <string name="invalid_title">Wrong title</string>
+    <string name="invalid_subject">Wrong subject</string>
+    <string name="invalid_city">Wrong city</string>
+    <string name="invalid_price">Wrong price</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
 </resources>

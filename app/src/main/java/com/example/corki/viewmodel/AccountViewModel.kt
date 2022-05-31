@@ -109,6 +109,14 @@ class AccountViewModel : ViewModel() {
         return accountToken
     }
 
+    fun accountByTokenGetter() : LiveData<Account> {
+        return loggedAccount
+    }
+
+    fun accountByIdGetter() : LiveData<Account> {
+        return account
+    }
+
     //FETCH
     fun postLogin(map: Map<String, String>) : LiveData<String> {
         fetchAccountToken(map, "LOGIN")

@@ -84,6 +84,10 @@ class PostViewModel : ViewModel() {
         return postId
     }
 
+    fun removeId() {
+        postId = MutableLiveData<String>()
+    }
+
     fun onDispose() {
         dispose.dispose()
     }

@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.corki.MainActivity
 import com.example.corki.R
 import com.example.corki.databinding.FragmentCreateBinding
@@ -53,9 +55,10 @@ class CreateFragment : Fragment() {
     private fun observePostViewModel() {
         postViewModel.postIdGetter().observe(viewLifecycleOwner) { data ->
             if(data.isNotEmpty()) {
-                //val bundle = bundleOf("id" to data)
-                //findNavController().navigate(R.id.action_fragment_create_to_fragment_details, bundle)
+                val bundle = bundleOf("id" to data)
+                findNavController().navigate(R.id.action_fragment_create_to_fragment_details, bundle)
                 Toast.makeText(context, "Post created!", Toast.LENGTH_SHORT).show()
+                postViewModel.removeId()
             } else {
                 Toast.makeText(context, "Post could not be created!", Toast.LENGTH_SHORT).show()
             }

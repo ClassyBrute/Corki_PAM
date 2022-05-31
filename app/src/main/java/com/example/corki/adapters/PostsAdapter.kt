@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -29,13 +30,28 @@ class PostsAdapter(
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
     override fun onBindViewHolder(holder: PostsViewHolder, position: Int) {
         val postsViewModel = posts[position]
+        var canBeClicked = true
         with(holder) {
-            title.text = postsViewModel.title
-            subject.text = postsViewModel.subjects[0].replaceFirst(
-                oldChar = postsViewModel.subjects[0][0],
-                newChar = postsViewModel.subjects[0][0].uppercase().toCharArray()[0]
-            )
+            //TITLE
+            if(postsViewModel.title.isEmpty()) {
+                canBeClicked = false
+                title.text = holder.itemView.context.getString(R.string.invalid_title)
+            }
+            else title.text = postsViewModel.title
 
+            //SUBJECT
+            if(postsViewModel.subjects.isEmpty()) {
+                canBeClicked = false
+                subject.text = holder.itemView.context.getString(R.string.invalid_subject)
+            }
+            else {
+                subject.text = postsViewModel.subjects[0].replaceFirst(
+                    oldChar = postsViewModel.subjects[0][0],
+                    newChar = postsViewModel.subjects[0][0].uppercase().toCharArray()[0]
+                )
+            }
+
+            //DATE
             try {
                 val format = "yyyy-MM-dd'T'kk:mm:ss.sss'Z'"
                 val dateFrom = SimpleDateFormat(format).parse(postsViewModel.dateFrom)?.let {
@@ -48,17 +64,33 @@ class PostsAdapter(
 
                 if (duration != null) date.text = "$dateFrom - ${duration / 60000} min"
             } catch (ex: NullPointerException) {
+                canBeClicked = false
                 date.text = holder.itemView.context.getString(R.string.invalid_time)
             }
 
-            city.text = postsViewModel.cities[0]
-            price.text = "${postsViewModel.price}zł"
+            //CITY
+            if(postsViewModel.cities.isEmpty()) {
+                canBeClicked = false
+                city.text = holder.itemView.context.getString(R.string.invalid_city)
+            }
+            else city.text = postsViewModel.cities[0]
+
+            //PRICE
+            if(postsViewModel.price.equals(null)) {
+                canBeClicked = false
+                price.text = holder.itemView.context.getString(R.string.invalid_price)
+            }
+            else price.text = "${postsViewModel.price}zł"
         }
 
         holder.detail.setOnClickListener {
-            val bundle = bundleOf("id" to postsViewModel.id)
-            holder.itemView.findNavController()
-                .navigate(R.id.action_navigation_search_to_fragment_details, bundle)
+            if(canBeClicked) {
+                val bundle = bundleOf("id" to postsViewModel.id)
+                holder.itemView.findNavController()
+                    .navigate(R.id.action_navigation_search_to_fragment_details, bundle)
+            } else {
+                Toast.makeText(holder.itemView.context, "This post is invalid.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

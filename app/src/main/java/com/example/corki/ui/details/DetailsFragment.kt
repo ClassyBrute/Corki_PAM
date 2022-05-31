@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.corki.MainActivity
 import com.example.corki.R
 import com.example.corki.databinding.FragmentDetailsBinding
 import com.example.corki.viewmodel.AccountViewModel
@@ -41,6 +42,7 @@ class DetailsFragment : Fragment() {
     //ACCOUNT
     private lateinit var accountViewModel: AccountViewModel
     private var ownerId = ""
+    private var currentUser = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -54,6 +56,9 @@ class DetailsFragment : Fragment() {
         accountViewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
         accountViewModel.accountViewModel()
 
+        observeAccountViewModelId()
+        observeAccountViewModelToken()
+
         with(binding) {
             texts = listOf(
                 titleCard, subjectDetails, cityDetails, priceDetails,
@@ -64,13 +69,6 @@ class DetailsFragment : Fragment() {
                 cityDetailsEdit, levelDetailsEdit, priceDetailsEdit, durationDetailsEdit
             )
         }
-
-        // TODO check if post author == loggedIn user
-        val loggedIn = true
-        if (!loggedIn) binding.detailsEdit.visibility = View.GONE
-        else binding.detailsRegister.visibility = View.GONE
-
-
 
         binding.detailsEdit.setOnClickListener {
             toggleEdit(true)
@@ -100,7 +98,9 @@ class DetailsFragment : Fragment() {
 
         binding.dateDetailsEdit1.setOnClickListener { showDatePicker() }
 
-        binding.backButton.setOnClickListener { findNavController().popBackStack() }
+        binding.backButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
 
         return root
     }
@@ -198,6 +198,10 @@ class DetailsFragment : Fragment() {
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     private fun observePostViewModel(id: String) {
         postViewModel.getPost(id).observe(viewLifecycleOwner) { data ->
+            ownerId = data.ownerId
+            accountViewModel.getProfile((activity as MainActivity).getJWT())
+            accountViewModel.getAccount(ownerId)
+
             with(binding) {
                 titleCard.text = data.title
                 subjectDetails.text = data.subjects[0].replaceFirst(
@@ -230,20 +234,27 @@ class DetailsFragment : Fragment() {
                 } catch (ex: NullPointerException) {
                     durationDetails.text = context?.getString(R.string.invalid_time)
                 }
-
-                ownerId = data.ownerId
-                if(accountViewModel.getAccount(ownerId).hasActiveObservers()) {
-                    accountViewModel.getAccount(ownerId)
-                } else {
-                    observeAccountViewModel()
-                }
             }
         }
     }
 
-    private fun observeAccountViewModel() {
-        accountViewModel.getAccount(ownerId).observe(viewLifecycleOwner) { data ->
+    private fun observeAccountViewModelId() {
+        accountViewModel.accountByIdGetter().observe(viewLifecycleOwner) { data ->
             binding.ownerDetails.text = "${data.firstName} ${data.lastName}"
+        }
+    }
+
+    private fun observeAccountViewModelToken() {
+        accountViewModel.accountByTokenGetter().observe(viewLifecycleOwner) { data ->
+            currentUser = data.id
+            if (ownerId == currentUser) {
+                binding.detailsEdit.visibility = View.VISIBLE
+                binding.detailsRegister.visibility = View.GONE
+            }
+            else {
+                binding.detailsEdit.visibility = View.GONE
+                binding.detailsRegister.visibility = View.VISIBLE
+            }
         }
     }
 }
