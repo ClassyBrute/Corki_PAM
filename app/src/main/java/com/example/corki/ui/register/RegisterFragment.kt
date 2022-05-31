@@ -40,6 +40,7 @@ class RegisterFragment : Fragment() {
 
         binding.birthdayRegisterEdit1.hint = DateFormat.getDateInstance().format(Date())
         binding.birthdayRegisterEdit1.setOnClickListener { showDatePicker() }
+        binding.backButton.setOnClickListener { findNavController().popBackStack() }
 
         binding.buttonRegister.setOnClickListener {
             registerMap = mutableMapOf<String, String>()

@@ -70,7 +70,7 @@
         tools:layout="@layout/fragment_profile" >
         <action
             android:id="@+id/action_navigation_profile_to_fragment_login"
-            app:popUpTo="@id/navigation_search"
+            app:popUpTo="@id/mobile_navigation"
             app:popUpToInclusive="true"
             app:destination="@id/fragment_login" />
     </fragment>
