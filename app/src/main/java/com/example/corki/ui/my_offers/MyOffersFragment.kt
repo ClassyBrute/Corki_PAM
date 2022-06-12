@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.corki.databinding.FragmentMyOffersBinding
 
+// TODO show all offers belonging to you and all offers for which you are registered
 class MyOffersFragment : Fragment() {
 
     private var _binding: FragmentMyOffersBinding? = null

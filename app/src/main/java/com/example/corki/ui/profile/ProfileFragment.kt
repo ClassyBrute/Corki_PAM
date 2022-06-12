@@ -84,8 +84,10 @@ class ProfileFragment : Fragment() {
             toggleEdit(false)
         }
 
-        // don't send anything to api
-        binding.profileCancel.setOnClickListener { toggleEdit(false) }
+        // TODO don't send anything to api
+        binding.profileCancel.setOnClickListener {
+            toggleEdit(false)
+        }
 
         binding.birthdayProfileEdit1.setText(DateFormat.getDateInstance().format(Date()))
 
