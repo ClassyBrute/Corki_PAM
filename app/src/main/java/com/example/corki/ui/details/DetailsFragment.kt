@@ -91,8 +91,15 @@ class DetailsFragment : Fragment() {
             toggleEdit(false)
         }
 
-        // don't send anything to api
-        binding.detailsCancel.setOnClickListener { toggleEdit(false) }
+        // TODO don't send anything to api
+        binding.detailsCancel.setOnClickListener {
+            toggleEdit(false)
+        }
+
+        // TODO register and deregister
+        binding.detailsRegister.setOnClickListener {
+
+        }
 
         binding.dateDetailsEdit1.setText(DateFormat.getDateInstance().format(Date()))
 
