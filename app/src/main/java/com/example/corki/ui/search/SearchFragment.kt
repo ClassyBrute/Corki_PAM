@@ -71,13 +71,13 @@ class SearchFragment : Fragment() {
     private fun initiateSearch() {
         map = mutableMapOf<String, String>()
 
-        if (!binding.menuSubjectItem.text.isNullOrEmpty()) {
+        if (!binding.menuSubjectItem.text.isNullOrEmpty() && binding.menuSubjectItem.text.toString() != binding.menuSubjectItem.adapter.getItem(0).toString()) {
             map["subjects"] = binding.menuSubjectItem.text.toString().lowercase()
         }
-        if (!binding.menuLevelItem.text.isNullOrEmpty()) {
+        if (!binding.menuLevelItem.text.isNullOrEmpty() && binding.menuSubjectItem.text.toString() != binding.menuSubjectItem.adapter.getItem(0).toString()) {
             map["level"] = binding.menuLevelItem.text.toString().lowercase()
         }
-        if (!binding.menuCityItem.text.isNullOrEmpty()) {
+        if (!binding.menuCityItem.text.isNullOrEmpty() && binding.menuSubjectItem.text.toString() != binding.menuSubjectItem.adapter.getItem(0).toString()) {
             map["cities"] = binding.menuCityItem.text.toString()
         }
         if (!binding.maxPriceEdit.text.isNullOrEmpty()) {

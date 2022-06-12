@@ -19,11 +19,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initPreferences()
         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initPreferences()
 
         val navView: BottomNavigationView = binding.navView
 

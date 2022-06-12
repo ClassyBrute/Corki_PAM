@@ -40,6 +40,7 @@
     <string name="log_out">log out</string>
 
     <string-array name="subjects">
+        <item />
         <item> Math </item>
         <item> Physics </item>
         <item> Chemistry </item>
@@ -54,6 +55,7 @@
     </string-array>
 
     <string-array name="level">
+        <item />
         <item> Primary School </item>
         <item> Middle School </item>
         <item> High School </item>
@@ -61,6 +63,7 @@
     </string-array>
 
     <string-array name="city">
+        <item />
         <item> Wrocław </item>
         <item> Poznań </item>
         <item> Warszawa </item>
